@@ -1,18 +1,25 @@
 import { Outlet } from 'react-router-dom';
 import NavMenu from './NavMenu';
+import Footer from './Footer';
+import tw from 'tailwind-styled-components';
+
+const PageContainer = tw.div`
+  flex flex-col min-h-screen
+`;
+
+const MainContent = tw.main`
+  flex-grow
+`;
 
 const Layout: React.FC = () => {
   return (
-    <div>
-      <header>
-        <h1>레이아웃 입니다</h1>
-        <NavMenu />
-      </header>
-      <main>
+    <PageContainer>
+      <NavMenu />
+      <MainContent>
         <Outlet />
-      </main>
-      <footer>?푸터</footer>
-    </div>
+      </MainContent>
+      {/* <Footer /> */}
+    </PageContainer>
   );
 };
 export default Layout;
