@@ -1,18 +1,20 @@
 import React from 'react';
-import {
-  RecoilRoot,
-  atom,
-  selector,
-  useRecoilState,
-  useRecoilValue,
-} from 'recoil';
-import CharacterCounter from './components/CharacterCounter';
+import AppRoutes from './app/AppRoutes';
+import { RecoilRoot } from 'recoil';
+import { RouterProvider, createBrowserRouter } from 'react-router-dom';
+
+const router = createBrowserRouter([
+  { path: '*', element: <AppRoutes />, errorElement: <>error</> },
+]);
 
 function App() {
   return (
-    <RecoilRoot>
-      <CharacterCounter />
-    </RecoilRoot>
+    <div className="App">
+      <RecoilRoot>
+        <RouterProvider router={router} />
+      </RecoilRoot>
+    </div>
   );
 }
+
 export default App;
