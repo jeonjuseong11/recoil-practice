@@ -4,7 +4,7 @@ import axios from 'axios';
 
 export const userState = atom<User>({
   key: 'user',
-  default: { username: '', email: '' },
+  default: { userId: '', password: '' },
 });
 
 export const isLoggedInState = atom<boolean>({
@@ -12,16 +12,25 @@ export const isLoggedInState = atom<boolean>({
   default: localStorage.getItem('user') ? true : false,
 });
 
-export const login = async (formData: { email: string; password: string }) => {
-  const response = await axios.post(
-    'http://192.168.50.26:8000/api/login',
-    formData
-  );
-  const { username, email, emp_ID } = response.data;
+//기본 api url 설정
+export const client = axios.create({
+  baseURL: import.meta.env.REACT_APP_API_BASE_URL,
+  timeout: 3000,
+  headers: {
+    'Content-Type': 'application/json',
+    'Access-Control-Allow-Origin': '*',
+  },
+  responseType: 'json',
+});
 
-  localStorage.setItem('userInfo', email); // 로컬 스토리지에 토큰 저장
+export const login = async (formData: { userId: string; password: string }) => {
+  console.log(import.meta.env.REACT_APP_API_BASE_URL);
+  const response = await client.post('/login', formData);
+  const { userId, password, emp_ID } = response.data;
 
-  return { username, email, emp_ID };
+  localStorage.setItem('userInfo', JSON.stringify(response.data)); // 로컬 스토리지에 토큰 저장
+
+  return { password, userId, emp_ID };
 };
 
 export const signup = async (formData: {
@@ -29,21 +38,21 @@ export const signup = async (formData: {
   email: string;
   password: string;
 }) => {
-  const response = await axios.post('http://api주소/auth/signup', formData);
+  const response = await client.post('/signup', formData);
   const { username, email, token } = response.data;
 
-  localStorage.setItem('token', token); // 로컬 스토리지에 토큰 저장
+  localStorage.setItem('userInfo', JSON.stringify(response.data)); // 로컬 스토리지에 토큰 저장
 
   return { username, email, token };
 };
 
 export const logout = async () => {
   try {
-    await axios.post('http://api주소/auth/logout');
+    // await axios.post('http://api주소/auth/logout');
 
     // 로컬 스토리지에서 토큰 제거
-    localStorage.removeItem('token');
+    localStorage.removeItem('userInfo');
   } catch (error) {
-    console.error('Error during logout:', error);
+    console.error('Error:', error);
   }
 };

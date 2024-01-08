@@ -3,7 +3,7 @@ import { useSetRecoilState } from 'recoil';
 import { isLoggedInState, login, userState } from '../recoil/auth/atoms';
 import { useNavigate } from 'react-router-dom';
 import tw from 'tailwind-styled-components';
-import { SignInButton } from './LoginStyle';
+// import { SignInButton } from './LoginStyle';
 
 const Container = tw.div`
   min-h-[calc(100vh-4rem)]
@@ -64,9 +64,25 @@ const Checkbox = tw.input`
 const CheckboxLabel = tw.label`
   ml-2 text-sm font-medium text-gray-900 dark:text-gray-300
 `;
+const SignInButton = tw.button`
+  w-full 
+  text-white 
+  bg-blue-600 
+  hover:bg-blue-700 
+  focus:ring-4 
+  focus:ring-blue-300 
+  font-medium 
+  rounded-lg
+  text-sm 
+  px-5 
+  py-2.5 
+  text-center 
+  transition-colors 
+  duration-200
+`;
 
 const Login: React.FC = () => {
-  const [formData, setFormData] = useState({ email: '', password: '' });
+  const [formData, setFormData] = useState({ userId: '', password: '' });
   const setUser = useSetRecoilState(userState);
   const setIsLoggedIn = useSetRecoilState(isLoggedInState);
   const navigate = useNavigate();
@@ -79,7 +95,7 @@ const Login: React.FC = () => {
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const loggedInUser = await login(formData);
-    setUser({ email: formData.emp_ID });
+    setUser(loggedInUser);
     setIsLoggedIn(true);
     navigate('/');
   };
@@ -95,11 +111,11 @@ const Login: React.FC = () => {
           <Title>Login</Title>
           <Form onSubmit={handleSubmit}>
             <div>
-              <InputLabel htmlFor="email">이메일</InputLabel>
+              <InputLabel htmlFor="userId">아이디</InputLabel>
               <Input
                 type="text"
-                name="id"
-                id="id"
+                name="userId"
+                id="userId"
                 placeholder="아이디를 입력해주세요"
                 required
                 onChange={handleChange}
