@@ -1,7 +1,7 @@
 import { Outlet } from 'react-router-dom';
-import NavMenu from './NavMenu';
-import Footer from './Footer';
 import tw from 'tailwind-styled-components';
+import Header from './Header';
+import Footer from './Footer';
 
 const PageContainer = tw.div`
   flex flex-col min-h-screen
@@ -14,7 +14,7 @@ const MainContent = tw.main`
 const Layout: React.FC = () => {
   return (
     <PageContainer>
-      <NavMenu />
+      <Header />
       <MainContent>
         <Outlet />
       </MainContent>
