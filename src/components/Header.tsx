@@ -68,7 +68,7 @@ const Header: React.FC = () => {
       await logout();
       setUser({
         emp_NM: '',
-        password: '',
+        passwd: '',
         emp_ID: '',
       });
 
@@ -106,7 +106,7 @@ const Header: React.FC = () => {
         ) : (
           <>
             <TopMenuLoginBtn to={'/login'}>LOGIN</TopMenuLoginBtn>
-            <TopMenuSignupBtn to={'/signup'}>SIGNUP</TopMenuSignupBtn>
+            <TopMenuSignupBtn to={'/signup/1'}>SIGNUP</TopMenuSignupBtn>
           </>
         )}
       </TopMenuButtonGroup>

@@ -32,7 +32,9 @@ type InputFieldProps = {
   id: string;
   placeholder: string;
   onChange: (e: ChangeEvent<HTMLInputElement>) => void;
+  value: string;
   disabled?: boolean;
+  readOnly?: boolean;
 };
 
 const InputField: React.FC<InputFieldProps> = ({
@@ -42,11 +44,13 @@ const InputField: React.FC<InputFieldProps> = ({
   id,
   placeholder,
   onChange,
+  value,
   disabled,
+  readOnly,
 }) => {
   return (
     <div>
-      <InputLabel htmlFor={id}>{label}</InputLabel>
+      {label && <InputLabel htmlFor={id}>{label}</InputLabel>}
       <Input
         type={type}
         name={name}
@@ -54,7 +58,9 @@ const InputField: React.FC<InputFieldProps> = ({
         placeholder={placeholder}
         required
         onChange={onChange}
+        value={value}
         disabled={disabled}
+        readOnly={readOnly}
       />
     </div>
   );

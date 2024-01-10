@@ -7,6 +7,10 @@ import { isLoggedInSelector, userStateSelector } from '../../recoil/auth';
 import InputField from '../../common/InputField';
 import { BaseButton, Form } from '../../common/BaseStyledComponents';
 
+const PrimaryButton = tw(BaseButton)`
+  bg-blue-600 hover:bg-blue-700 focus:ring-blue-300
+`;
+
 const CheckboxContainer = tw.div`
   flex items-center 
   justify-between
@@ -46,7 +50,7 @@ const SignInButton = tw.button`
 `;
 
 const LoginForm = () => {
-  const [formData, setFormData] = useState({ userId: '', password: '' });
+  const [formData, setFormData] = useState({ email: '', password: '' });
   const navigate = useNavigate();
   const setUser = useSetRecoilState(userStateSelector);
   const setIsLoggedIn = useSetRecoilState(isLoggedInSelector);
@@ -59,10 +63,10 @@ const LoginForm = () => {
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const result = await login(formData);
-    if (result.userVO) {
-      setUser(result.userVO);
+    if (result) {
+      setUser(result);
       setIsLoggedIn(true);
-      sessionStorage.setItem('user', JSON.stringify(result.userVO));
+      sessionStorage.setItem('user', JSON.stringify(result));
       navigate('/');
     } else {
       alert(result.msg);
@@ -76,10 +80,11 @@ const LoginForm = () => {
     <Form onSubmit={handleSubmit}>
       <InputField
         type="text"
-        name="userId"
-        label="아이디"
-        id="userId"
-        placeholder="아이디를 입력해주세요"
+        name="email"
+        label="이메일"
+        id="email"
+        value={formData.email}
+        placeholder="이메일을 입력해주세요"
         onChange={handleChange}
       />
       <InputField
@@ -87,6 +92,7 @@ const LoginForm = () => {
         name="password"
         label="비밀번호"
         id="password"
+        value={formData.password}
         placeholder="비밀번호를 입력해주세요"
         onChange={handleChange}
       />
@@ -99,14 +105,7 @@ const LoginForm = () => {
           비밀번호 찾기
         </a>
       </CheckboxContainer>
-      <BaseButton
-        bgColor="blue"
-        hoverBgColor="blue"
-        focusRingColor="blue"
-        type="submit"
-      >
-        로그인
-      </BaseButton>
+      <PrimaryButton type="submit">로그인</PrimaryButton>
       <div className="text-sm font-light text-gray-500 dark:text-gray-400 mt-4">
         계정이 없으신가요?{' '}
         <a
