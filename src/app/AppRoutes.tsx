@@ -5,8 +5,8 @@ import Layout from '../components/Layout';
 import { useRecoilValue } from 'recoil';
 import { isLoggedInSelector } from '../recoil/auth';
 import Home from '../pages/Home';
-import SignUpStepOne from '../pages/SignUpStepOne';
-import SignUpStepTwo from '../pages/SignUpStepTwo';
+import EmailVerification from '../pages/EmailVerification';
+import AccountSetup from '../pages/AccountSetup';
 
 function AppRoutes() {
   const isLoggedIn = useRecoilValue(isLoggedInSelector);
@@ -14,8 +14,8 @@ function AppRoutes() {
   return (
     <Routes>
       <Route element={<Layout />}>
-        <Route path="/signup/1" element={<SignUpStepOne />} />
-        <Route path="/signup/2" element={<SignUpStepTwo />} />
+        <Route path="/signup/1" element={<EmailVerification />} />
+        <Route path="/signup/2" element={<AccountSetup />} />
         <Route
           path="/"
           element={isLoggedIn ? <Home /> : <Navigate replace to="/login" />}

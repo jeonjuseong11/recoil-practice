@@ -9,7 +9,8 @@ import tw from 'tailwind-styled-components';
 import InputField from '../../common/InputField';
 import { BaseButton } from '../../common/BaseStyledComponents';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { signup } from '../../api/authServices';
+import { authAPI } from '../../api';
+import useAxios from '../../hooks/useAxios';
 
 const PrimaryButton = tw(BaseButton)`
   bg-blue-600 hover:bg-blue-700 focus:ring-blue-300
@@ -32,10 +33,10 @@ const SignUpForm: React.FC = () => {
     email: '',
     password: '',
   });
+  const { sendRequest: signup, data, error, loading } = useAxios(authAPI.login);
   const location = useLocation();
   const navigate = useNavigate();
   useEffect(() => {
-    console.log(location);
     if (location.state) {
       setFormData((f) => ({ ...f, email: location.state.email }));
     }
@@ -47,13 +48,14 @@ const SignUpForm: React.FC = () => {
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const result = await signup(formData);
-    console.log(result);
-    if (result === 200) {
+    await signup(formData);
+    if (data) {
       alert('환영합니다 로그인 창으로 이동합니다.');
       navigate('/login');
-    } else {
-      alert(result.msg);
+    }
+    if (error) {
+      alert(error);
+      console.log(error);
     }
   };
   return (

@@ -1,7 +1,7 @@
 import React from 'react';
 import tw from 'tailwind-styled-components';
 import LoginForm from '../components/Login/LoginForm';
-import { Container, Card } from '../common/BaseStyledComponents';
+import { CardWrapper, PageContainer } from '../common';
 
 const Title = tw.h1`
   text-center
@@ -16,12 +16,12 @@ const Title = tw.h1`
 
 const Login: React.FC = () => {
   return (
-    <Container>
-      <Card>
+    <PageContainer>
+      <CardWrapper>
         <Title>Login</Title>
         <LoginForm />
-      </Card>
-    </Container>
+      </CardWrapper>
+    </PageContainer>
   );
 };
 
