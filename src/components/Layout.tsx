@@ -3,7 +3,7 @@ import tw from 'tailwind-styled-components';
 import Header from './Header';
 import Footer from './Footer';
 
-const PageContainer = tw.div`
+const LayoutWrapper = tw.div`
   flex flex-col min-h-screen
 `;
 
@@ -13,13 +13,13 @@ const MainContent = tw.main`
 
 const Layout: React.FC = () => {
   return (
-    <PageContainer>
+    <LayoutWrapper>
       <Header />
       <MainContent>
         <Outlet />
       </MainContent>
       {/* <Footer /> */}
-    </PageContainer>
+    </LayoutWrapper>
   );
 };
 export default Layout;

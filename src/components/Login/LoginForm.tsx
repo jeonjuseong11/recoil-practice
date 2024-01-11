@@ -1,59 +1,36 @@
 import { ChangeEvent, FormEvent, MouseEvent, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { login } from '../../api/authServices';
-import tw from 'tailwind-styled-components';
 import { useSetRecoilState } from 'recoil';
 import { isLoggedInSelector, userStateSelector } from '../../recoil/auth';
 import InputField from '../../common/InputField';
-import { BaseButton, Form } from '../../common/BaseStyledComponents';
-
-const PrimaryButton = tw(BaseButton)`
-  bg-blue-600 hover:bg-blue-700 focus:ring-blue-300
-`;
-
-const CheckboxContainer = tw.div`
-  flex items-center 
-  justify-between
-`;
-
-const Checkbox = tw.input`
-  w-4 h-4 
-  text-blue-600 
-  border-gray-300 
-  rounded 
-  focus:ring-blue-500 
-  dark:focus:ring-blue-600
-`;
-
-const CheckboxLabel = tw.label`
-  ml-2 
-  text-sm 
-  font-medium 
-  text-gray-900 
-  dark:text-gray-300
-`;
-const SignInButton = tw.button`
-  w-full 
-  text-white 
-  bg-blue-600 
-  hover:bg-blue-700 
-  focus:ring-4 
-  focus:ring-blue-300 
-  font-medium 
-  rounded-lg
-  text-sm 
-  px-5 
-  py-2.5 
-  text-center 
-  transition-colors 
-  duration-200
-`;
+import { Form } from '../../common/BaseStyledComponents';
+import {
+  Checkbox,
+  CheckboxContainer,
+  CheckboxLabel,
+  PrimaryButton,
+} from './styles/Login.styled';
+import useAxios from '../../hooks/useAxios';
+import { authAPI } from '../../api';
+import { instance } from '../../api/apiClient';
+import Spinner from '../../common/Spinner';
 
 const LoginForm = () => {
   const [formData, setFormData] = useState({ email: '', password: '' });
   const navigate = useNavigate();
   const setUser = useSetRecoilState(userStateSelector);
   const setIsLoggedIn = useSetRecoilState(isLoggedInSelector);
+  const {
+    sendRequest: login,
+    loading: isLogging,
+    status: loginStatus,
+    error: loginError,
+    done: loginDone,
+  } = useAxios(authAPI.login);
+
+  const isFormValid = () => {
+    return formData.email.trim() !== '' && formData.password.trim() !== '';
+  };
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -62,20 +39,34 @@ const LoginForm = () => {
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const result = await login(formData);
-    if (result) {
-      setUser(result);
-      setIsLoggedIn(true);
-      sessionStorage.setItem('user', JSON.stringify(result));
-      navigate('/');
-    } else {
-      alert(result.msg);
+    const response = await login(formData);
+    console.log(response);
+    if (response) {
+      if ('data' in response) {
+        const { username, userId, refreshToken, token } = response.data;
+        if (token) {
+          instance.defaults.headers.common['Authorization'] = 'Bearer ' + token;
+        }
+        setUser({
+          username,
+          email: userId,
+        });
+        setIsLoggedIn(true);
+        sessionStorage.setItem('token', JSON.stringify(refreshToken));
+
+        navigate('/');
+      }
+      if (loginError) {
+        alert('로그인 실패');
+      }
     }
   };
-  const handleClick = (e: MouseEvent<HTMLAnchorElement>) => {
+
+  const handleClick = (e: MouseEvent) => {
     e.preventDefault();
     navigate('/signup/1');
   };
+
   return (
     <Form onSubmit={handleSubmit}>
       <InputField
@@ -96,7 +87,7 @@ const LoginForm = () => {
         placeholder="비밀번호를 입력해주세요"
         onChange={handleChange}
       />
-      <CheckboxContainer>
+      {/* <CheckboxContainer>
         <div className="flex items-center">
           <Checkbox id="remember" type="checkbox" />
           <CheckboxLabel htmlFor="remember">로그인 상태 유지</CheckboxLabel>
@@ -104,8 +95,12 @@ const LoginForm = () => {
         <a href="#" className="text-sm text-blue-600 hover:underline">
           비밀번호 찾기
         </a>
-      </CheckboxContainer>
-      <PrimaryButton type="submit">로그인</PrimaryButton>
+      </CheckboxContainer> */}
+
+      <PrimaryButton type="submit" disabled={!isFormValid() || isLogging}>
+        로그인
+        {isLogging && <Spinner />}
+      </PrimaryButton>
       <div className="text-sm font-light text-gray-500 dark:text-gray-400 mt-4">
         계정이 없으신가요?{' '}
         <a
@@ -114,6 +109,10 @@ const LoginForm = () => {
           onClick={handleClick}
         >
           회원가입
+        </a>
+        {' | '}
+        <a href="#" className="text-sm text-blue-600 hover:underline">
+          비밀번호 찾기
         </a>
       </div>
     </Form>

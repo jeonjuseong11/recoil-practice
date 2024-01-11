@@ -2,8 +2,10 @@ import { NavLink } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
 import tw from 'tailwind-styled-components';
 import { isLoggedInSelector, userStateSelector } from '../recoil/auth';
-import { logout } from '../api/authServices';
 import { useEffect } from 'react';
+import useAxios from '../hooks/useAxios';
+import authApi from '../api/authAPI';
+import { instance } from '../api/apiClient';
 
 const HeaderWrapper = tw.header`  
   flex 
@@ -59,21 +61,23 @@ const TopMenuSignupBtn = tw(NavLink)`
 const Header: React.FC = () => {
   const [user, setUser] = useRecoilState(userStateSelector);
   const [isLoggedIn, setIsLoggedIn] = useRecoilState(isLoggedInSelector);
+  const {
+    data,
+    error,
+    loading,
+    sendRequest: logout,
+  } = useAxios(authApi.logout);
 
-  useEffect(() => {
-    console.log(isLoggedIn);
-  }, [isLoggedIn]);
   const handleLogout = async () => {
     try {
       await logout();
       setUser({
-        emp_NM: '',
-        passwd: '',
-        emp_ID: '',
+        username: '',
+        email: '',
       });
-
+      delete instance.defaults.headers.common['Authorization'];
       setIsLoggedIn(false);
-      sessionStorage.removeItem('user');
+      sessionStorage.removeItem('token');
     } catch (error) {
       console.error('Logout failed:', error);
     }

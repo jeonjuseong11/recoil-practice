@@ -23,6 +23,8 @@ const Input = tw.input`
   dark:border-gray-600 
   dark:placeholder-gray-400 
   dark:text-white
+  outline-none
+  hover:border-blue-300 // Hover 효과 추가
 `;
 
 type InputFieldProps = {
@@ -35,6 +37,7 @@ type InputFieldProps = {
   value: string;
   disabled?: boolean;
   readOnly?: boolean;
+  autoFocus?: boolean;
 };
 
 const InputField: React.FC<InputFieldProps> = ({
@@ -47,6 +50,7 @@ const InputField: React.FC<InputFieldProps> = ({
   value,
   disabled,
   readOnly,
+  autoFocus,
 }) => {
   return (
     <div>
@@ -61,6 +65,7 @@ const InputField: React.FC<InputFieldProps> = ({
         value={value}
         disabled={disabled}
         readOnly={readOnly}
+        autoFocus={autoFocus}
       />
     </div>
   );

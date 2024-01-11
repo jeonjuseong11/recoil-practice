@@ -17,9 +17,10 @@ export const isLoggedInSelector = selector<boolean>({
   key: 'isLoggedInSelector',
   get: ({ get }) => {
     const user = get(userState);
-    return user.emp_ID !== '';
+    return user.username !== '';
   },
   set: ({ set }, newValue) => {
     set(isLoggedInState, newValue);
   },
 });
+// 사용자가 회원가입 1단계를 통과 했는가(이메일 인증)
