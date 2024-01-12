@@ -1,16 +1,10 @@
-import React, {
-  ChangeEvent,
-  FormEvent,
-  MouseEvent,
-  useEffect,
-  useState,
-} from 'react';
+import React, { ChangeEvent, FormEvent, useEffect, useState } from 'react';
 import tw from 'tailwind-styled-components';
 import InputField from '../../common/InputField';
 import { BaseButton } from '../../common/BaseStyledComponents';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { authAPI } from '../../api';
 import useAxios from '../../hooks/useAxios';
+import { signup } from '../../api/apiRequests';
 
 const PrimaryButton = tw(BaseButton)`
   bg-blue-600 hover:bg-blue-700 focus:ring-blue-300
@@ -33,12 +27,13 @@ const SignUpForm: React.FC = () => {
     email: '',
     password: '',
   });
-  const { sendRequest: signup, data, error, loading } = useAxios(authAPI.login);
+  const { sendRequest: signupRequest, data, error, loading } = useAxios();
   const location = useLocation();
   const navigate = useNavigate();
+
   useEffect(() => {
     if (location.state) {
-      setFormData((f) => ({ ...f, email: location.state.email }));
+      setFormData((prevData) => ({ ...prevData, email: location.state.email }));
     }
   }, [location.state]);
 
@@ -48,16 +43,20 @@ const SignUpForm: React.FC = () => {
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    await signup(formData);
-    if (data) {
-      alert('환영합니다 로그인 창으로 이동합니다.');
-      navigate('/login');
-    }
-    if (error) {
-      alert(error);
-      console.log(error);
-    }
+
+    await signupRequest(
+      signup(formData),
+      () => {
+        alert('환영합니다 로그인 페이지로 이동합니다');
+        navigate('/login');
+      },
+      () => {
+        alert('회원가입 실패');
+        console.error(error);
+      }
+    );
   };
+
   return (
     <Form onSubmit={handleSubmit}>
       <InputField

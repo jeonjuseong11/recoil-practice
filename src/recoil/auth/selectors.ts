@@ -3,7 +3,7 @@ import { userState, isLoggedInState } from './atoms';
 import { User } from './types';
 
 //현재 사용자의 정보
-export const userStateSelector = selector<User>({
+export const userStateSelector = selector<User | null>({
   key: 'userStateSelector',
   get: ({ get }) => {
     return get(userState);
@@ -17,7 +17,7 @@ export const isLoggedInSelector = selector<boolean>({
   key: 'isLoggedInSelector',
   get: ({ get }) => {
     const user = get(userState);
-    return user.username !== '';
+    return user?.username !== '';
   },
   set: ({ set }, newValue) => {
     set(isLoggedInState, newValue);

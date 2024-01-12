@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { instance } from '../api/apiClient';
 
 const Home: React.FC = () => {
   return (

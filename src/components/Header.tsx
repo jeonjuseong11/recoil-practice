@@ -4,8 +4,9 @@ import tw from 'tailwind-styled-components';
 import { isLoggedInSelector, userStateSelector } from '../recoil/auth';
 import { useEffect } from 'react';
 import useAxios from '../hooks/useAxios';
-import authApi from '../api/authAPI';
 import { instance } from '../api/apiClient';
+import { logout } from '../api/apiRequests';
+import Spinner from '../common/Spinner';
 
 const HeaderWrapper = tw.header`  
   flex 
@@ -42,50 +43,44 @@ const TopMenuLoginBtn = tw(NavLink)`
   px-4 py-2
   text-sm
   rounded
-  transition-transform duration-200
-
-  hover:text-white 
-  hover:bg-blue-700  hover:scale-105
+  transition duration-500
+  hover:text-indigo-600  
+  border-black
+  hover:border-blue-700  
 `;
 const TopMenuSignupBtn = tw(NavLink)`
   bg-indigo-600 
   px-4 py-2 
   rounded   
   text-sm  
-  transition-transform duration-200
+  transition duration-500
   text-white 
   hover:bg-indigo-500 
-  hover:scale-105
 `;
 
 const Header: React.FC = () => {
   const [user, setUser] = useRecoilState(userStateSelector);
   const [isLoggedIn, setIsLoggedIn] = useRecoilState(isLoggedInSelector);
-  const {
-    data,
-    error,
-    loading,
-    sendRequest: logout,
-  } = useAxios(authApi.logout);
+  const { error, loading: logouting, sendRequest: logoutRequest } = useAxios();
 
   const handleLogout = async () => {
-    try {
-      await logout();
-      setUser({
-        username: '',
-        email: '',
-      });
-      delete instance.defaults.headers.common['Authorization'];
-      setIsLoggedIn(false);
-      sessionStorage.removeItem('token');
-    } catch (error) {
-      console.error('Logout failed:', error);
-    }
+    await logoutRequest(
+      logout(),
+      () => {
+        setUser({
+          username: '',
+          email: '',
+        });
+        delete instance.defaults.headers.common['Authorization'];
+        setIsLoggedIn(false);
+        sessionStorage.removeItem('user');
+        sessionStorage.removeItem('token');
+      },
+      () => {
+        console.error('Logout failed:', error);
+      }
+    );
   };
-
-  useEffect(() => {
-    console.log(user);
-  }, [user]);
 
   return (
     <HeaderWrapper>
@@ -104,7 +99,7 @@ const Header: React.FC = () => {
         {isLoggedIn ? (
           <>
             <TopMenuSignupBtn to="/login" onClick={handleLogout}>
-              로그아웃
+              로그아웃 {logouting ? <Spinner /> : <></>}
             </TopMenuSignupBtn>
           </>
         ) : (

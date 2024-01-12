@@ -3,6 +3,7 @@ export interface User {
   email: string;
   token?: string;
   refreshToken?: string;
+  role?: string;
 }
 export interface LoginInfo {
   userId: string;

@@ -3,9 +3,9 @@ import { useNavigate } from 'react-router-dom';
 import { BaseButton, Form } from '../../common/BaseStyledComponents';
 import InputField from '../../common/InputField';
 import tw from 'tailwind-styled-components';
-import { authAPI } from '../../api';
 import useAxios from '../../hooks/useAxios';
 import Spinner from '../../common/Spinner';
+import { sendVerificationCode, verifyEmail } from '../../api/apiRequests';
 
 const PrimaryButton = tw(BaseButton)`
   bg-blue-600 hover:bg-blue-700 focus:ring-blue-300 gap-3	
@@ -23,18 +23,11 @@ const EmailVerificationForm: React.FC = () => {
   const navigate = useNavigate();
 
   // 이메일 인증 코드 발송
-  const {
-    sendRequest: sendVerificationCode,
-    error: sendCodeError,
-    loading: isCodeSending,
-  } = useAxios(authAPI.sendVerificationCode);
+
+  const { sendRequest: sendCodeRequest, loading: isCodeSending } = useAxios();
 
   // 이메일 인증 코드 검증
-  const {
-    sendRequest: verifyEmail,
-    error: verifyError,
-    loading: isVerifying,
-  } = useAxios(authAPI.verifyEmail);
+  const { sendRequest: verifyEmailRequest, loading: isVerifying } = useAxios();
 
   // 이메일 변경 핸들러
   const handleEmailChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -52,9 +45,11 @@ const EmailVerificationForm: React.FC = () => {
       setEmailError('');
     }
   };
+
   const isEmailValid = () => {
     return email.length > 0 && emailError === '';
   };
+
   // 인증 코드 변경 핸들러
   const handleVerificationCodeChange = (e: ChangeEvent<HTMLInputElement>) => {
     setVerificationCode(e.target.value);
@@ -63,33 +58,32 @@ const EmailVerificationForm: React.FC = () => {
   // 인증 코드 발송 핸들러
   const handleSendVerificationEmail = async () => {
     if (emailError === '') {
-      const { status } = await sendVerificationCode(email);
-      if (status === 200) {
-        setIsCodeSent(true);
-      }
-      if (sendCodeError) {
-        alert(verifyError?.message || '인증 코드 검증 실패');
-      }
-    } else {
-      alert('이메일을 입력해주세요');
+      await sendCodeRequest(
+        sendVerificationCode({ email }),
+        () => {
+          setIsCodeSent(true);
+        },
+        (error) => {
+          console.error(error);
+          alert('인증 코드 전송 실패');
+        }
+      );
     }
   };
+
   // 인증 코드 검증 핸들러
   const handleVerifyCode = async () => {
-    const { status } = await verifyEmail({ code: verificationCode, email });
-    if (status === 200) {
-      navigate('/signup/2', { state: { email } });
-    } else {
-      // 인증 코드 오류 처리
-      setVerificationCodeError('인증 코드가 틀렸습니다');
-    }
-    if (verifyError) {
-      alert(verifyError?.message || '인증 코드 검증 실패');
-    }
+    await verifyEmailRequest(
+      verifyEmail({ email, code: verificationCode }),
+      () => {
+        navigate('/signup/2', { state: { email } });
+      },
+      (error) => {
+        console.error(error);
+        alert('인증 코드 검증 실패');
+      }
+    );
   };
-  useEffect(() => {
-    console.log(emailError);
-  }, [emailError]);
 
   return (
     <Form onSubmit={(e) => e.preventDefault()}>

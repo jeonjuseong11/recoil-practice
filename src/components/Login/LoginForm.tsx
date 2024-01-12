@@ -1,64 +1,58 @@
-import { ChangeEvent, FormEvent, MouseEvent, useState } from 'react';
+import { useState, ChangeEvent, FormEvent, MouseEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useSetRecoilState } from 'recoil';
+import { useRecoilState, useSetRecoilState } from 'recoil';
 import { isLoggedInSelector, userStateSelector } from '../../recoil/auth';
 import InputField from '../../common/InputField';
 import { Form } from '../../common/BaseStyledComponents';
-import {
-  Checkbox,
-  CheckboxContainer,
-  CheckboxLabel,
-  PrimaryButton,
-} from './styles/Login.styled';
+import { PrimaryButton } from './styles/Login.styled';
 import useAxios from '../../hooks/useAxios';
-import { authAPI } from '../../api';
-import { instance } from '../../api/apiClient';
 import Spinner from '../../common/Spinner';
+import { login } from '../../api/apiRequests';
+import { instance } from '../../api/apiClient';
 
 const LoginForm = () => {
   const [formData, setFormData] = useState({ email: '', password: '' });
   const navigate = useNavigate();
-  const setUser = useSetRecoilState(userStateSelector);
+  const [user, setUser] = useRecoilState(userStateSelector);
   const setIsLoggedIn = useSetRecoilState(isLoggedInSelector);
-  const {
-    sendRequest: login,
-    loading: isLogging,
-    status: loginStatus,
-    error: loginError,
-    done: loginDone,
-  } = useAxios(authAPI.login);
-
-  const isFormValid = () => {
-    return formData.email.trim() !== '' && formData.password.trim() !== '';
-  };
+  const { sendRequest, loading } = useAxios();
+  const isFormValid = () =>
+    formData.email.trim() !== '' && formData.password.trim() !== '';
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
+    setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const response = await login(formData);
-    console.log(response);
-    if (response) {
-      if ('data' in response) {
-        const { username, userId, refreshToken, token } = response.data;
-        if (token) {
-          instance.defaults.headers.common['Authorization'] = 'Bearer ' + token;
+    if (isFormValid()) {
+      await sendRequest(
+        login(formData),
+        (data) => {
+          const { username, userId, role, token } = data.data;
+          const userInfo = {
+            username,
+            email: userId,
+            role,
+          };
+          setUser(userInfo);
+          sessionStorage.setItem('user', JSON.stringify(userInfo));
+          setIsLoggedIn(true);
+          if (token) {
+            sessionStorage.setItem(
+              'token',
+              JSON.stringify(data.data.refreshToken)
+            );
+            instance.defaults.headers.common['Authorization'] =
+              `Bearer ${data.data.token}`;
+            navigate('/');
+          }
+        },
+        (error) => {
+          console.error(error);
+          alert('로그인 실패: ' + error.message);
         }
-        setUser({
-          username,
-          email: userId,
-        });
-        setIsLoggedIn(true);
-        sessionStorage.setItem('token', JSON.stringify(refreshToken));
-
-        navigate('/');
-      }
-      if (loginError) {
-        alert('로그인 실패');
-      }
+      );
     }
   };
 
@@ -87,19 +81,8 @@ const LoginForm = () => {
         placeholder="비밀번호를 입력해주세요"
         onChange={handleChange}
       />
-      {/* <CheckboxContainer>
-        <div className="flex items-center">
-          <Checkbox id="remember" type="checkbox" />
-          <CheckboxLabel htmlFor="remember">로그인 상태 유지</CheckboxLabel>
-        </div>
-        <a href="#" className="text-sm text-blue-600 hover:underline">
-          비밀번호 찾기
-        </a>
-      </CheckboxContainer> */}
-
-      <PrimaryButton type="submit" disabled={!isFormValid() || isLogging}>
-        로그인
-        {isLogging && <Spinner />}
+      <PrimaryButton type="submit" disabled={!isFormValid() || loading}>
+        로그인 {loading && <Spinner />}
       </PrimaryButton>
       <div className="text-sm font-light text-gray-500 dark:text-gray-400 mt-4">
         계정이 없으신가요?{' '}
