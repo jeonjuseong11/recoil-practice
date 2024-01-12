@@ -1,15 +1,27 @@
-import * as React from 'react';
+import React, { useEffect } from 'react';
 import { Navigate, Route, Routes } from 'react-router-dom';
 import Login from '../pages/Login';
 import Layout from '../components/Layout';
-import { useRecoilValue } from 'recoil';
-import { isLoggedInSelector } from '../recoil/auth';
+import { useRecoilState, useSetRecoilState } from 'recoil';
+import { isLoggedInSelector, userStateSelector } from '../recoil/auth';
 import Home from '../pages/Home';
 import EmailVerification from '../pages/EmailVerification';
 import AccountSetup from '../pages/AccountSetup';
 
 function AppRoutes() {
-  const isLoggedIn = useRecoilValue(isLoggedInSelector);
+  const [isLoggedIn, setIsLoggedIn] = useRecoilState(isLoggedInSelector);
+  const setUser = useSetRecoilState(userStateSelector);
+
+  useEffect(() => {
+    const storedUser = sessionStorage.getItem('user');
+    const isLoggedIn = sessionStorage.getItem('token') === 'true';
+
+    if (storedUser) {
+      setUser(JSON.parse(storedUser));
+      setIsLoggedIn(true);
+    }
+    setIsLoggedIn(isLoggedIn);
+  }, []);
 
   return (
     <Routes>

@@ -1,15 +1,12 @@
 import { atom } from 'recoil';
 import { User } from './types';
 
-const storedUser = sessionStorage.getItem('user');
-const storedToken = sessionStorage.getItem('token');
-
-export const userState = atom<User | null>({
+export const userState = atom<User>({
   key: 'user',
-  default: storedUser ? JSON.parse(storedUser) : null,
+  default: { username: '', email: '' },
 });
 
 export const isLoggedInState = atom<boolean>({
   key: 'isLoggedIn',
-  default: !!storedToken,
+  default: false,
 });

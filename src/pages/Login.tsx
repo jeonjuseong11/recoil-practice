@@ -10,7 +10,6 @@ const Title = tw.h1`
   leading-tight 
   tracking-tight 
   text-gray-900 
-  md:text-2xl 
   dark:text-white
 `;
 

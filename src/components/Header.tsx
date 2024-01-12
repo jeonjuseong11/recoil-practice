@@ -67,14 +67,13 @@ const Header: React.FC = () => {
     await logoutRequest(
       logout(),
       () => {
+        sessionStorage.clear();
         setUser({
           username: '',
           email: '',
         });
         delete instance.defaults.headers.common['Authorization'];
         setIsLoggedIn(false);
-        sessionStorage.removeItem('user');
-        sessionStorage.removeItem('token');
       },
       () => {
         console.error('Logout failed:', error);
