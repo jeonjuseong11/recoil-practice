@@ -1,6 +1,6 @@
 import { useState, ChangeEvent, FormEvent, MouseEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useRecoilState, useSetRecoilState } from 'recoil';
+import { useSetRecoilState } from 'recoil';
 import { isLoggedInSelector, userStateSelector } from '../../recoil/auth';
 import InputField from '../../common/InputField';
 import { Form } from '../../common/BaseStyledComponents';
@@ -13,7 +13,7 @@ import { instance } from '../../api/apiClient';
 const LoginForm = () => {
   const [formData, setFormData] = useState({ email: '', password: '' });
   const navigate = useNavigate();
-  const [user, setUser] = useRecoilState(userStateSelector);
+  const setUser = useSetRecoilState(userStateSelector);
   const setIsLoggedIn = useSetRecoilState(isLoggedInSelector);
   const { sendRequest, loading } = useAxios();
   const isFormValid = () =>

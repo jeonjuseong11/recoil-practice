@@ -17,6 +17,5 @@ export const BaseButton = tw.button`
   gap-2
   text-center 
   focus:ring-4 
-  transition-colors 
-  duration-200
+  transition duration-500
 `;

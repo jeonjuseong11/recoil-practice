@@ -1,8 +1,7 @@
 import { NavLink } from 'react-router-dom';
-import { useRecoilState } from 'recoil';
+import { useRecoilState, useSetRecoilState } from 'recoil';
 import tw from 'tailwind-styled-components';
 import { isLoggedInSelector, userStateSelector } from '../recoil/auth';
-import { useEffect } from 'react';
 import useAxios from '../hooks/useAxios';
 import { instance } from '../api/apiClient';
 import { logout } from '../api/apiRequests';
@@ -59,7 +58,7 @@ const TopMenuSignupBtn = tw(NavLink)`
 `;
 
 const Header: React.FC = () => {
-  const [user, setUser] = useRecoilState(userStateSelector);
+  const setUser = useSetRecoilState(userStateSelector);
   const [isLoggedIn, setIsLoggedIn] = useRecoilState(isLoggedInSelector);
   const { error, loading: logouting, sendRequest: logoutRequest } = useAxios();
 

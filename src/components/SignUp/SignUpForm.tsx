@@ -27,7 +27,7 @@ const SignUpForm: React.FC = () => {
     email: '',
     password: '',
   });
-  const { sendRequest: signupRequest, data, error, loading } = useAxios();
+  const { sendRequest: signupRequest, error } = useAxios();
   const location = useLocation();
   const navigate = useNavigate();
 

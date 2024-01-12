@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import { Navigate, Route, Routes } from 'react-router-dom';
 import Login from '../pages/Login';
 import Layout from '../components/Layout';
@@ -26,8 +26,6 @@ function AppRoutes() {
   return (
     <Routes>
       <Route element={<Layout />}>
-        <Route path="/signup/1" element={<EmailVerification />} />
-        <Route path="/signup/2" element={<AccountSetup />} />
         <Route
           path="/"
           element={isLoggedIn ? <Home /> : <Navigate replace to="/login" />}
@@ -36,6 +34,8 @@ function AppRoutes() {
           path="/login"
           element={isLoggedIn ? <Navigate replace to="/" /> : <Login />}
         />
+        <Route path="/signup/1" element={<EmailVerification />} />
+        <Route path="/signup/2" element={<AccountSetup />} />
       </Route>
     </Routes>
   );

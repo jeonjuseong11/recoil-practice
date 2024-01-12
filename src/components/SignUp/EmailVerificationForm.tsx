@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useEffect, useState } from 'react';
+import React, { ChangeEvent, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { BaseButton, Form } from '../../common/BaseStyledComponents';
 import InputField from '../../common/InputField';
@@ -80,6 +80,7 @@ const EmailVerificationForm: React.FC = () => {
       },
       (error) => {
         console.error(error);
+        setVerificationCodeError('이메일 인증 실패 다시 시도해주세요');
         alert('인증 코드 검증 실패');
       }
     );
@@ -87,16 +88,19 @@ const EmailVerificationForm: React.FC = () => {
 
   return (
     <Form onSubmit={(e) => e.preventDefault()}>
-      <InputField
-        type="email"
-        name="email"
-        id="email"
-        value={email}
-        placeholder="이메일을 입력해주세요"
-        onChange={handleEmailChange}
-        disabled={isCodeSent}
-        autoFocus={true}
-      />
+      <div className="relative">
+        <InputField
+          type="email"
+          name="email"
+          id="email"
+          value={email}
+          placeholder="이메일을 입력해주세요"
+          onChange={handleEmailChange}
+          disabled={isCodeSent}
+          autoFocus={true}
+          onVerifyClick={handleSendVerificationEmail}
+        />
+      </div>
       {emailError && <div style={{ color: 'red' }}>{emailError}</div>}
       {isCodeSent && (
         <>
@@ -106,8 +110,10 @@ const EmailVerificationForm: React.FC = () => {
             id="verificationCode"
             value={verificationCode}
             placeholder="인증 코드를 입력해주세요"
+            autoFocus
             onChange={handleVerificationCodeChange}
-          />{' '}
+            maxLength={6}
+          />
           {verificationCodeError && (
             <div style={{ color: 'red' }}>{verificationCodeError}</div>
           )}
