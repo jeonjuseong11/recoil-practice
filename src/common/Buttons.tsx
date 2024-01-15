@@ -1,7 +1,8 @@
 import React from 'react';
 import tw from 'tailwind-styled-components';
 
-const BaseButton = tw.button`
+// 버튼의 기본 스타일
+const StyledButton = tw.button`
   w-full 
   text-white 
   font-medium 
@@ -12,36 +13,46 @@ const BaseButton = tw.button`
   text-center 
   focus:ring-4 
   transition-colors 
-  duration-200
+  duration-200 
+  flex items-center justify-center gap-2
 `;
 
-const buttonVariants = {
-  primary: 'bg-blue-600 hover:bg-blue-700 focus:ring-blue-300',
-  success: 'bg-green-600 hover:bg-green-700 focus:ring-green-300',
-};
-
-type ButtonProps = {
-  variant: keyof typeof buttonVariants;
-  children: React.ReactNode;
-  onClick?: () => void;
+// 버튼 속성 정의
+interface ButtonProps {
+  variant?: 'primary' | 'success';
   disabled?: boolean;
+  children: React.ReactNode;
   type?: 'button' | 'submit' | 'reset';
-};
+  onClick?: () => void;
+}
 
-const Button: React.FC<ButtonProps> = ({
-  variant,
+// BaseButton 컴포넌트
+const BaseButton: React.FC<ButtonProps> = ({
   children,
-  onClick,
-  disabled,
+  variant = 'primary',
+  disabled = false,
   type = 'button',
+  onClick,
 }) => {
-  const StyledButton = tw(BaseButton)`${buttonVariants[variant]}`;
+  // 버튼 변형에 따른 스타일
+  const variantStyles = {
+    primary: `bg-blue-600 hover:bg-blue-700 focus:ring-blue-300`,
+    success: `bg-green-600 hover:bg-green-700 focus:ring-green-300`,
+  };
+
+  // 비활성화 스타일
+  const disabledStyle = `opacity-50 cursor-not-allowed`;
 
   return (
-    <StyledButton onClick={onClick} disabled={disabled} type={type}>
+    <StyledButton
+      className={`${variantStyles[variant]} ${disabled ? disabledStyle : ''}`}
+      disabled={disabled}
+      type={type}
+      onClick={onClick}
+    >
       {children}
     </StyledButton>
   );
 };
 
-export default Button;
+export default BaseButton;

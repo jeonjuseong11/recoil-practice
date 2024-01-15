@@ -9,6 +9,9 @@ const LayoutWrapper = tw.div`
 
 const MainContent = tw.main`
   flex-grow
+  flex-col
+  justify-center
+  items-center
 `;
 
 const Layout: React.FC = () => {
