@@ -7,6 +7,8 @@ import { isLoggedInSelector, userStateSelector } from '../recoil/auth';
 import Home from '../pages/Home';
 import EmailVerification from '../pages/EmailVerification';
 import AccountSetup from '../pages/AccountSetup';
+import NotFoundError from '../pages/404Error';
+import Error from '../pages/Error';
 
 function AppRoutes() {
   const [isLoggedIn, setIsLoggedIn] = useRecoilState(isLoggedInSelector);
@@ -28,15 +30,19 @@ function AppRoutes() {
       <Route element={<Layout />}>
         <Route
           path="/"
-          element={isLoggedIn ? <Home /> : <Navigate replace to="/login" />}
+          // element={isLoggedIn ? <Home /> : <Navigate replace to="/login" />}
+          element={<Home />}
         />
         <Route
           path="/login"
-          element={isLoggedIn ? <Navigate replace to="/" /> : <Login />}
+          // element={isLoggedIn ? <Navigate replace to="/" /> : <Login />}
+          element={<Login />}
         />
         <Route path="/signup/1" element={<EmailVerification />} />
         <Route path="/signup/2" element={<AccountSetup />} />
+        <Route path="*" element={<NotFoundError />} />
       </Route>
+      <Route path="/error" element={<Error />} />
     </Routes>
   );
 }
