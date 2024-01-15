@@ -4,7 +4,7 @@ import InputField from '../../common/InputField';
 import { BaseButton } from '../../common/BaseStyledComponents';
 import { useLocation, useNavigate } from 'react-router-dom';
 import useAxios from '../../hooks/useAxios';
-import { signup } from '../../api/apiRequests';
+import { signup } from '../../api';
 
 const PrimaryButton = tw(BaseButton)`
   bg-blue-600 hover:bg-blue-700 focus:ring-blue-300

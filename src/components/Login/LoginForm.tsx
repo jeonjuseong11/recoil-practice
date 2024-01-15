@@ -4,11 +4,11 @@ import { useSetRecoilState } from 'recoil';
 import { isLoggedInSelector, userStateSelector } from '../../recoil/auth';
 import InputField from '../../common/InputField';
 import { Form } from '../../common/BaseStyledComponents';
-import { PrimaryButton } from './styles/Login.styled';
 import useAxios from '../../hooks/useAxios';
 import Spinner from '../../common/Spinner';
-import { login } from '../../api/apiRequests';
 import { instance } from '../../api/apiClient';
+import { login } from '../../api';
+import BaseButton from '../../common/Buttons';
 
 const LoginForm = () => {
   const [formData, setFormData] = useState({ email: '', password: '' });
@@ -29,7 +29,7 @@ const LoginForm = () => {
       await sendRequest(
         login(formData),
         (data) => {
-          const { username, userId, role, token } = data.data;
+          const { username, userId, role, token, refreshToken } = data.data;
           const userInfo = {
             username,
             email: userId,
@@ -39,12 +39,9 @@ const LoginForm = () => {
           sessionStorage.setItem('user', JSON.stringify(userInfo));
           setIsLoggedIn(true);
           if (token) {
-            sessionStorage.setItem(
-              'token',
-              JSON.stringify(data.data.refreshToken)
-            );
+            sessionStorage.setItem('token', JSON.stringify(refreshToken));
             instance.defaults.headers.common['Authorization'] =
-              `Bearer ${data.data.token}`;
+              `Bearer ${token}`;
             navigate('/');
           }
         },
@@ -81,13 +78,17 @@ const LoginForm = () => {
         placeholder="비밀번호를 입력해주세요"
         onChange={handleChange}
       />
-      <PrimaryButton type="submit" disabled={!isFormValid() || loading}>
+      <BaseButton
+        type="submit"
+        variant="primary"
+        disabled={!isFormValid() || loading}
+      >
         로그인 {loading && <Spinner />}
-      </PrimaryButton>
+      </BaseButton>
       <div className="text-sm font-light text-gray-500 dark:text-gray-400 mt-4">
         계정이 없으신가요?{' '}
         <a
-          href="#"
+          href="signup"
           className="font-medium text-blue-600 hover:underline"
           onClick={handleClick}
         >

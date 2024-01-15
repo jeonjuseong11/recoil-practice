@@ -1,17 +1,16 @@
 import React, { ChangeEvent, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { BaseButton, Form } from '../../common/BaseStyledComponents';
+import { Form } from '../../common/BaseStyledComponents';
 import InputField from '../../common/InputField';
-import tw from 'tailwind-styled-components';
 import useAxios from '../../hooks/useAxios';
 import Spinner from '../../common/Spinner';
-import { sendVerificationCode, verifyEmail } from '../../api/apiRequests';
+import { sendVerificationCode, verifyEmail } from '../../api';
+import BaseButton from '../../common/Buttons';
+import tw from 'tailwind-styled-components';
 
-const PrimaryButton = tw(BaseButton)`
-  bg-blue-600 hover:bg-blue-700 focus:ring-blue-300 gap-3	
-`;
-const SuccessButton = tw(BaseButton)`
-  bg-green-600 hover:bg-green-700 focus:ring-green-300 gap-3
+const VerificationButton = tw(BaseButton)`
+  absolute inset-y-0 right-0 flex items-center justify-center px-3 text-white bg-blue-600
+  hover:bg-blue-700 focus:ring-blue-300 text-sm rounded-lg
 `;
 
 const EmailVerificationForm: React.FC = () => {
@@ -62,6 +61,8 @@ const EmailVerificationForm: React.FC = () => {
         sendVerificationCode({ email }),
         () => {
           setIsCodeSent(true);
+          alert(`${email}에 인증메일을 보냈습니다. 
+메일에서 인증코드를 확인해주세요`);
         },
         (error) => {
           console.error(error);
@@ -98,8 +99,15 @@ const EmailVerificationForm: React.FC = () => {
           onChange={handleEmailChange}
           disabled={isCodeSent}
           autoFocus={true}
-          onVerifyClick={handleSendVerificationEmail}
-        />
+        >
+          <VerificationButton
+            onClick={handleSendVerificationEmail}
+            disabled={!isEmailValid() || isCodeSending || isVerifying}
+          >
+            인증 메일 전송
+            {isCodeSending && <Spinner />}
+          </VerificationButton>
+        </InputField>
       </div>
       {emailError && <div style={{ color: 'red' }}>{emailError}</div>}
       {isCodeSent && (
@@ -117,21 +125,14 @@ const EmailVerificationForm: React.FC = () => {
           {verificationCodeError && (
             <div style={{ color: 'red' }}>{verificationCodeError}</div>
           )}
-          <SuccessButton
+          <BaseButton
             onClick={handleVerifyCode}
             disabled={isCodeSending || isVerifying}
           >
             코드 검증 {isVerifying ? <Spinner /> : <></>}
-          </SuccessButton>
+          </BaseButton>
         </>
       )}
-      <PrimaryButton
-        onClick={handleSendVerificationEmail}
-        disabled={!isEmailValid() || isCodeSending || isVerifying}
-      >
-        {isCodeSent ? '재발송' : '메일 인증'}
-        {isCodeSending && <Spinner />}
-      </PrimaryButton>
     </Form>
   );
 };

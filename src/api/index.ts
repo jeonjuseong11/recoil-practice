@@ -1,3 +1,17 @@
-import authAPI from './authAPI';
+import {
+  login,
+  signup,
+  logout,
+  sendVerificationCode,
+  verifyEmail,
+  updateToken,
+} from './AuthAPIRequests';
 
-export { authAPI };
+export {
+  login,
+  signup,
+  logout,
+  sendVerificationCode,
+  verifyEmail,
+  updateToken,
+};

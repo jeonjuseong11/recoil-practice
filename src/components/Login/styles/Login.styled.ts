@@ -1,9 +1,4 @@
 import tw from 'tailwind-styled-components';
-import { BaseButton } from '../../../common/BaseStyledComponents';
-
-export const PrimaryButton = tw(BaseButton)`
-  bg-blue-600 hover:bg-blue-700 focus:ring-blue-300
-`;
 
 export const CheckboxContainer = tw.div`
   flex items-center 
