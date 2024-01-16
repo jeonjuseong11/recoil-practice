@@ -7,6 +7,7 @@ import { instance } from '../api/apiClient';
 import { logout } from '../api';
 import Spinner from '../common/Spinner';
 import MenuIcon from '../icons/MenuIcon';
+import Logo from '../common/Logo';
 
 const HeaderWrapper = tw.header`  
   flex items-center justify-center p-4 bg-white 
@@ -15,12 +16,12 @@ const TopMenuSection = tw.section`
   flex 
   items-center 
   space-x-8
-  w-3/12
+  w-96
   justify-center
 `;
 const TopMenuButtonGroup = tw.section`
   flex space-x-4
-  w-3/12
+  w-96
   justify-end
 `;
 
@@ -35,7 +36,7 @@ const TopMenuItem = tw(NavLink)`
 const TopMenuLoginBtn = tw(NavLink)`
   text-gray-800 
   px-4 py-2
-  text-sm
+  text-base
   rounded-full
   border
   border-transparent
@@ -47,14 +48,14 @@ const TopMenuSignupBtn = tw(NavLink)`
   bg-indigo-600 
   px-4 py-2 
   rounded-full  
-  text-sm  
+  text-base  
   text-white 
   hover:bg-indigo-500     
   transition-all duration-300
 
 `;
 const HeaderTitle = tw.h1`
-  text-2xl font-bold text-center mx-auto
+  text-4xl font-bold text-center mx-auto
 `;
 
 const Header: React.FC = () => {
@@ -83,13 +84,11 @@ const Header: React.FC = () => {
   return (
     <>
       <HeaderWrapper>
-        <div className="w-3/12">
+        <div className="w-96">
           <MenuIcon />
         </div>
         <TopMenuSection>
-          <NavLink to={'/'}>
-            <HeaderTitle>DevReads</HeaderTitle>
-          </NavLink>
+          <Logo />
         </TopMenuSection>
         <TopMenuButtonGroup>
           {isLoggedIn ? (
