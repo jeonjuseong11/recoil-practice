@@ -1,7 +1,11 @@
-// 책 객체에 대한 타입 정의
 export interface Book {
   id: number;
+  bookCoverUrl: string;
   title: string;
   author: string;
+  description: string;
   price: number;
+  discount: string;
 }
+
+export type BooksState = Book[];

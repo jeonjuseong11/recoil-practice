@@ -8,6 +8,7 @@ import { logout } from '../api';
 import Spinner from '../common/Spinner';
 import MenuIcon from '../icons/MenuIcon';
 import Logo from '../common/Logo';
+import CartIcon from '../icons/CardIcon';
 
 const HeaderWrapper = tw.header`  
   flex items-center justify-center p-4 bg-white 
@@ -23,14 +24,7 @@ const TopMenuButtonGroup = tw.section`
   flex space-x-4
   w-96
   justify-end
-`;
-
-const TopMenuItem = tw(NavLink)`
-  text-gray-700
-  hover:text-indigo-600 
-  border-b-2 border-transparent
-  hover:border-indigo-600 
-  transition-all duration-500
+  items-center
 `;
 
 const TopMenuLoginBtn = tw(NavLink)`
@@ -53,9 +47,6 @@ const TopMenuSignupBtn = tw(NavLink)`
   hover:bg-indigo-500     
   transition-all duration-300
 
-`;
-const HeaderTitle = tw.h1`
-  text-4xl font-bold text-center mx-auto
 `;
 
 const Header: React.FC = () => {
@@ -90,10 +81,12 @@ const Header: React.FC = () => {
         <TopMenuSection>
           <Logo />
         </TopMenuSection>
+
         <TopMenuButtonGroup>
+          <CartIcon />
           {isLoggedIn ? (
             <>
-              <TopMenuItem to={'/profile'}>마이페이지</TopMenuItem>
+              <TopMenuLoginBtn to={'/profile'}>마이페이지</TopMenuLoginBtn>
               <TopMenuSignupBtn to="/login" onClick={handleLogout}>
                 로그아웃 {logouting ? <Spinner /> : <></>}
               </TopMenuSignupBtn>

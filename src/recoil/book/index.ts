@@ -1,2 +1,10 @@
 export * from './atoms';
-export { filteredBooksSelector } from './selectors';
+export {
+  filteredBooksSelector,
+  allBooksSelector,
+  discountedBooksSelector,
+  bookDetailsSelector,
+  booksByAuthorSelector,
+  booksByPriceRangeSelector,
+  booksBySearchKeywordSelector,
+} from './selectors';

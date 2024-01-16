@@ -1,19 +1,16 @@
 import React from 'react';
+import { NavLink } from 'react-router-dom';
 
 interface BookCardProps {
+  id: number;
   index: number;
   bookCoverUrl?: string;
-  title?: string;
+  title: string;
   author?: string;
   description?: string;
   category?: string;
-  price: string;
+  price: number;
   discount?: string;
-}
-
-function parsePrice(price: string | undefined): number {
-  // price가 undefined인 경우를 대비해 기본값으로 0을 설정
-  return price ? parseInt(price, 10) : 0;
 }
 
 function calculateDiscountedPrice(
@@ -27,6 +24,7 @@ function calculateDiscountedPrice(
 }
 
 const BookCard: React.FC<BookCardProps> = ({
+  id,
   bookCoverUrl,
   title,
   author,
@@ -35,12 +33,13 @@ const BookCard: React.FC<BookCardProps> = ({
   price,
   discount,
 }) => {
-  const originalPrice = parsePrice(price);
-  const finalPrice = calculateDiscountedPrice(originalPrice, discount);
-
+  const finalPrice = calculateDiscountedPrice(price, discount);
   return (
-    <div className="border rounded-lg overflow-hidden shadow-lg">
-      <div className="w-full h-56 bg-gray-300">
+    <NavLink
+      to={`books/${id}`}
+      className="cursor-pointer hover:opacity-75 duration-200"
+    >
+      <div className="w-52 h-68 bg-gray-300 m-auto mb-2">
         {bookCoverUrl ? (
           <img
             className="w-full h-full object-cover"
@@ -53,28 +52,26 @@ const BookCard: React.FC<BookCardProps> = ({
           </div>
         )}
       </div>
-      <div
-        className="p-4
-"
-      >
-        <h2 className="font-bold text-xl">{title}</h2>
-        <p className="text-gray-800 text-sm">{author}</p>
-        <p className="text-gray-700 text-base">{description}</p>
-        <div className="flex justify-between items-center">
-          {discount && parseInt(discount) > 0 && (
-            <span className="text-red-500 line-through">
-              {parseInt(price, 10).toLocaleString()}원
-            </span>
-          )}
-          <span className="text-lg font-semibold text-gray-900">
-            {finalPrice.toLocaleString()}원
-          </span>
+      <div className=" w-52 flex flex-col justify-between m-auto">
+        <div>
+          <h2 className="font-semibold text-lg">{title}</h2>
+          <p className="text-gray-800 text-sm">{author}</p>
         </div>
-        {discount && parseInt(discount) > 0 && (
-          <div className="flex flex- text-sm text-red-600">-{discount}%</div>
-        )}
+        <div className="items-center text-sm">
+          {discount && parseInt(discount) > 0 && (
+            <div>
+              <span className="text-red-600 flex-end mr-2">-{discount}%</span>
+              <span className="text-red-500 line-through">
+                {finalPrice.toLocaleString()}원
+              </span>
+            </div>
+          )}
+          <div className=" font-semibold text-gray-900">
+            {finalPrice.toLocaleString()}원
+          </div>
+        </div>
       </div>
-    </div>
+    </NavLink>
   );
 };
 
