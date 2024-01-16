@@ -1,4 +1,4 @@
-import { NavLink } from 'react-router-dom';
+import { NavLink, useLocation } from 'react-router-dom';
 import PencilIcon from '../../icons/PencilIcon';
 import tw from 'tailwind-styled-components';
 
@@ -12,6 +12,7 @@ const ProfileMenuItem = tw(NavLink)`
 `;
 
 const ProfileMenu = () => {
+  const location = useLocation();
   return (
     <div className="flex justify-between mb-5">
       <div className="flex gap-5">
