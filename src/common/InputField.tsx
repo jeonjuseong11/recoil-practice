@@ -1,5 +1,6 @@
-import React, { ChangeEvent } from 'react';
+import React, { ChangeEvent, useState } from 'react';
 import tw from 'tailwind-styled-components';
+import EyeIcon from '../icons/EyeIcon';
 
 const InputLabel = tw.label`
   block mb-2 text-sm font-medium text-gray-900 dark:text-white
@@ -33,6 +34,9 @@ type InputFieldProps = {
   maxLength?: number;
   children?: React.ReactNode;
 };
+const ShowPasswordButton = tw.button`
+  p-2 cursor-pointer text-gray-600 hover:text-gray-800 dark:text-gray-300 dark:hover:text-white
+`;
 
 const InputField: React.FC<InputFieldProps> = ({
   label,
@@ -48,12 +52,18 @@ const InputField: React.FC<InputFieldProps> = ({
   maxLength,
   children,
 }) => {
+  const [inputType, setInputType] = useState(type);
+
+  const toggleShowPassword = () => {
+    setInputType(inputType === 'password' ? 'text' : 'password');
+  };
+
   return (
     <div>
       {label && <InputLabel htmlFor={id}>{label}</InputLabel>}
       <InputWrapper>
         <Input
-          type={type}
+          type={inputType}
           name={name}
           id={id}
           placeholder={placeholder}
@@ -66,6 +76,13 @@ const InputField: React.FC<InputFieldProps> = ({
           maxLength={maxLength}
         />
         <VerificationButton>{children}</VerificationButton>
+        {type === 'password' && (
+          <VerificationButton>
+            <ShowPasswordButton type="button" onClick={toggleShowPassword}>
+              <EyeIcon isVisible={inputType === 'password'} />
+            </ShowPasswordButton>
+          </VerificationButton>
+        )}
       </InputWrapper>
     </div>
   );

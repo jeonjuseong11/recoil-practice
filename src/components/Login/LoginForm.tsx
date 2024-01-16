@@ -94,8 +94,10 @@ const LoginForm = () => {
         >
           회원가입
         </a>
-        {' | '}
-        <a href="#" className="text-sm text-blue-600 hover:underline">
+      </div>
+      <div className="text-sm font-light text-gray-500 dark:text-gray-400 mt-4">
+        비밀번호를 까먹으셨나요?{' '}
+        <a href="#" className="font-medium text-blue-600 hover:underline">
           비밀번호 찾기
         </a>
       </div>
