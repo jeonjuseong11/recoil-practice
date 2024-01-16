@@ -7,6 +7,7 @@ const UserIcon = () => {
       stroke-width="1.5"
       stroke="currentColor"
       className="w-6 h-6"
+      aria-label="user"
     >
       <path
         stroke-linecap="round"

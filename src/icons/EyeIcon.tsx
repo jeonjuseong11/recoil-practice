@@ -12,6 +12,7 @@ const EyeIcon: React.FC<EyeIconProps> = ({ isVisible }) => {
           viewBox="0 0 24 24"
           strokeWidth={1.5}
           stroke="currentColor"
+          aria-label="PasswordVisible"
           className={`absolute w-6 h-6 transition-opacity duration-500 ease-in-out ${
             isVisible ? 'opacity-0' : 'opacity-100'
           }`}
