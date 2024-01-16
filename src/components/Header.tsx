@@ -9,6 +9,8 @@ import Spinner from '../common/Spinner';
 import MenuIcon from '../icons/MenuIcon';
 import Logo from '../common/Logo';
 import CartIcon from '../icons/CardIcon';
+import { useState } from 'react';
+import SideMenu from './SideMenu';
 
 const HeaderWrapper = tw.header`  
   flex items-center justify-center p-4 bg-white 
@@ -53,6 +55,11 @@ const Header: React.FC = () => {
   const setUser = useSetRecoilState(userStateSelector);
   const [isLoggedIn, setIsLoggedIn] = useRecoilState(isLoggedInSelector);
   const { error, loading: logouting, sendRequest: logoutRequest } = useAxios();
+  const [isMenuOpen, setIsMenuOpen] = useState(false); // 사이드 메뉴 상태를 관리하는 state
+
+  const handleSideMenuClick = () => {
+    setIsMenuOpen(!isMenuOpen); // 메뉴 아이콘을 클릭하면 상태를 반전시킵니다.
+  };
 
   const handleLogout = async () => {
     await logoutRequest(
@@ -76,7 +83,9 @@ const Header: React.FC = () => {
     <>
       <HeaderWrapper>
         <div className="w-96">
-          <MenuIcon />
+          <button onClick={handleSideMenuClick}>
+            <MenuIcon />
+          </button>
         </div>
         <TopMenuSection>
           <Logo />
@@ -99,6 +108,7 @@ const Header: React.FC = () => {
           )}
         </TopMenuButtonGroup>
       </HeaderWrapper>
+      <SideMenu isOpen={isMenuOpen} handleSideMenuClick={handleSideMenuClick} />
       <div className="flex justify-center gap-5 p-3">
         <h1>홈</h1>
         <h1>카테고리</h1>
