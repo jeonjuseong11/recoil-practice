@@ -1,2 +1,6 @@
 export * from './atoms';
-export { isLoggedInSelector, userStateSelector } from './selectors';
+export {
+  isLoggedInSelector,
+  userStateSelector,
+  userEmailVerifiedSelector,
+} from './selectors';

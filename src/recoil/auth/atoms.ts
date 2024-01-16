@@ -10,3 +10,7 @@ export const isLoggedInState = atom<boolean>({
   key: 'isLoggedIn',
   default: false,
 });
+export const userEmailVerifiedState = atom<boolean>({
+  key: 'userEmailVerifiedState',
+  default: false,
+});

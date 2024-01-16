@@ -1,12 +1,3 @@
-import {
-  login,
-  signup,
-  logout,
-  sendVerificationCode,
-  verifyEmail,
-  updateToken,
-} from './AuthAPIRequests';
-
 export {
   login,
   signup,
@@ -14,4 +5,4 @@ export {
   sendVerificationCode,
   verifyEmail,
   updateToken,
-};
+} from './AuthAPIRequests';

@@ -2,6 +2,7 @@ import React from 'react';
 import tw from 'tailwind-styled-components';
 import LoginForm from '../components/Login/LoginForm';
 import { CardWrapper, PageContainer } from '../common';
+import Logo from '../common/Logo';
 
 const Title = tw.h1`
   text-center
@@ -17,7 +18,7 @@ const Login: React.FC = () => {
   return (
     <PageContainer>
       <CardWrapper>
-        <Title>Login</Title>
+        <Logo />
         <LoginForm />
       </CardWrapper>
     </PageContainer>
