@@ -1,6 +1,6 @@
 const ProfileCard = () => {
   return (
-    <div className="col-span-4 sm:col-span-4 sm:px-0 px-8">
+    <div className="col-span-4 md:col-span-4 md:px-0 px-8">
       <div className="bg-white shadow rounded-lg p-5">
         <div className="flex flex-col items-left gap-10 ">
           <img
