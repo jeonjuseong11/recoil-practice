@@ -14,9 +14,9 @@ export default function NotFoundError() {
         <p className="mt-2 text-lg text-gray-600 dark:text-gray-300">
           죄송합니다. 찾으시는 페이지를 찾을 수 없습니다.
         </p>
-        <div className="mt-6">
+        <div className="mt-6 transition-transform duration-200 ease-in-out transform hover:translate-x-2">
           <NavLink
-            className="text-base font-medium text-indigo-600 hover:text-indigo-500 dark:text-indigo-400 dark:hover:text-indigo-300"
+            className="text-base font-medium text-indigo-600 hover:text-indigo-500 dark:text-indigo-400 dark:hover:text-indigo-300 "
             to="/"
           >
             홈으로 돌아가기
