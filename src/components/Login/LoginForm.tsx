@@ -1,23 +1,24 @@
 import { useState, ChangeEvent, FormEvent, MouseEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useSetRecoilState } from 'recoil';
-import { isLoggedInSelector, userStateSelector } from '../../recoil/auth';
 import InputField from '../../common/InputField';
 import { Form } from '../../common/BaseStyledComponents';
-import useAxios from '../../hooks/useAxios';
 import Spinner from '../../common/Spinner';
-import { instance } from '../../api/apiClient';
-import { login } from '../../api';
 import BaseButton from '../../common/Buttons';
+import useAuth from '../../hooks/useAuth';
+import useValidation from '../../hooks/useValidation';
 
 const LoginForm = () => {
   const [formData, setFormData] = useState({ email: '', password: '' });
   const navigate = useNavigate();
-  const setUser = useSetRecoilState(userStateSelector);
-  const setIsLoggedIn = useSetRecoilState(isLoggedInSelector);
-  const { sendRequest, loading } = useAxios();
-  const isFormValid = () =>
-    formData.email.trim() !== '' && formData.password.trim() !== '';
+  const { handleLogin, loading } = useAuth();
+  const {
+    isEmailValid,
+    emailErrorMessage,
+    isPasswordValid,
+    passwordErrorMessage,
+  } = useValidation(formData.email, formData.password);
+
+  const isFormValid = () => isEmailValid && isPasswordValid;
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -26,30 +27,7 @@ const LoginForm = () => {
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (isFormValid()) {
-      await sendRequest(
-        login(formData),
-        (data) => {
-          const { username, userId, role, token, refreshToken } = data.data;
-          const userInfo = {
-            username,
-            email: userId,
-            role,
-          };
-          setUser(userInfo);
-          sessionStorage.setItem('user', JSON.stringify(userInfo));
-          setIsLoggedIn(true);
-          if (token) {
-            sessionStorage.setItem('token', JSON.stringify(refreshToken));
-            instance.defaults.headers.common['Authorization'] =
-              `Bearer ${token}`;
-            navigate('/');
-          }
-        },
-        (error) => {
-          console.error(error);
-          alert('로그인 실패: ' + error.message);
-        }
-      );
+      await handleLogin(formData);
     }
   };
 
@@ -69,6 +47,9 @@ const LoginForm = () => {
         placeholder="이메일을 입력해주세요"
         onChange={handleChange}
       />
+      {!isEmailValid && (
+        <div className="text-sm text-red-500">{emailErrorMessage}</div>
+      )}
       <InputField
         type="password"
         name="password"
@@ -78,6 +59,10 @@ const LoginForm = () => {
         placeholder="비밀번호를 입력해주세요"
         onChange={handleChange}
       />
+      {!isPasswordValid && (
+        <div className="text-sm text-red-500">{passwordErrorMessage}</div>
+      )}
+
       <BaseButton
         type="submit"
         variant="primary"

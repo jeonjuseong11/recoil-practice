@@ -19,7 +19,7 @@ type Action<T> =
 function reducer<T>(state: State<T>, action: Action<T>): State<T> {
   switch (action.type) {
     case 'LOADING':
-      return { ...state, loading: true };
+      return { ...state, loading: true, done: false };
     case 'SUCCESS':
       return {
         ...state,

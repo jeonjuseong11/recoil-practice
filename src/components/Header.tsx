@@ -1,83 +1,47 @@
-import { NavLink } from 'react-router-dom';
-import { useRecoilState, useSetRecoilState } from 'recoil';
+import React, { useEffect, useState } from 'react';
 import tw from 'tailwind-styled-components';
-import { isLoggedInSelector, userStateSelector } from '../recoil/auth';
-import useAxios from '../hooks/useAxios';
-import { instance } from '../api/apiClient';
-import { logout } from '../api';
-import Spinner from '../common/Spinner';
+import { useRecoilValue } from 'recoil';
+import { isLoggedInSelector } from '../recoil/auth';
+import useAuth from '../hooks/useAuth';
 import MenuIcon from '../icons/MenuIcon';
 import Logo from '../common/Logo';
 import CartIcon from '../icons/CardIcon';
-import { useState } from 'react';
 import SideMenu from './SideMenu';
+import AuthButtons from './AuthButtons';
 
-const HeaderWrapper = tw.header`  
+const HeaderWrapper = tw.header`
   flex items-center justify-center p-4 bg-white 
 `;
 const TopMenuSection = tw.section`
-  flex 
-  items-center 
-  space-x-8
-  w-96
-  justify-center
+  flex items-center space-x-8 w-96 justify-center
 `;
 const TopMenuButtonGroup = tw.section`
-  flex space-x-4
-  w-96
-  justify-end
-  items-center
-`;
-
-const TopMenuLoginBtn = tw(NavLink)`
-  text-gray-800 
-  px-4 py-2
-  text-base
-  rounded-full
-  border
-  border-transparent
-  hover:text-indigo-600  
-  hover:border-indigo-600     
-  transition-all duration-300
-`;
-const TopMenuSignupBtn = tw(NavLink)`
-  bg-indigo-600 
-  px-4 py-2 
-  rounded-full  
-  text-base  
-  text-white 
-  hover:bg-indigo-500     
-  transition-all duration-300
-
+  flex space-x-4 w-96 justify-end items-center
 `;
 
 const Header: React.FC = () => {
-  const setUser = useSetRecoilState(userStateSelector);
-  const [isLoggedIn, setIsLoggedIn] = useRecoilState(isLoggedInSelector);
-  const { error, loading: logouting, sendRequest: logoutRequest } = useAxios();
-  const [isMenuOpen, setIsMenuOpen] = useState(false); // 사이드 메뉴 상태를 관리하는 state
+  const isLoggedIn = useRecoilValue(isLoggedInSelector);
+  const { handleLogout, loading } = useAuth();
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [showCartIcon, setShowCartIcon] = useState(true);
 
   const handleSideMenuClick = () => {
-    setIsMenuOpen(!isMenuOpen); // 메뉴 아이콘을 클릭하면 상태를 반전시킵니다.
+    setIsMenuOpen(!isMenuOpen);
   };
 
-  const handleLogout = async () => {
-    await logoutRequest(
-      logout(),
-      () => {
-        sessionStorage.clear();
-        setUser({
-          username: '',
-          email: '',
-        });
-        delete instance.defaults.headers.common['Authorization'];
-        setIsLoggedIn(false);
-      },
-      () => {
-        console.error('Logout failed:', error);
-      }
-    );
+  const updateLayout = () => {
+    const threshold = 768;
+    setShowCartIcon(window.innerWidth > threshold);
   };
+
+  useEffect(() => {
+    window.addEventListener('resize', updateLayout);
+    updateLayout();
+
+    return () => {
+      window.removeEventListener('resize', updateLayout);
+    };
+  }, []);
 
   return (
     <>
@@ -90,32 +54,24 @@ const Header: React.FC = () => {
         <TopMenuSection>
           <Logo />
         </TopMenuSection>
-
         <TopMenuButtonGroup>
-          <CartIcon />
-          {isLoggedIn ? (
-            <>
-              <TopMenuLoginBtn to={'/profile'}>마이페이지</TopMenuLoginBtn>
-              <TopMenuSignupBtn to="/login" onClick={handleLogout}>
-                로그아웃 {logouting ? <Spinner /> : <></>}
-              </TopMenuSignupBtn>
-            </>
-          ) : (
-            <>
-              <TopMenuLoginBtn to={'/login'}>로그인</TopMenuLoginBtn>
-              <TopMenuSignupBtn to={'/signup/1'}>회원가입</TopMenuSignupBtn>
-            </>
-          )}
+          {showCartIcon && <CartIcon />}
+          <AuthButtons
+            isLoggedIn={isLoggedIn}
+            onLogout={handleLogout}
+            loggingOut={loading}
+          />
         </TopMenuButtonGroup>
       </HeaderWrapper>
-      <SideMenu isOpen={isMenuOpen} handleSideMenuClick={handleSideMenuClick} />
+      <SideMenu isopen={isMenuOpen} handleSideMenuClick={handleSideMenuClick} />
       <div className="flex justify-center gap-5 p-3">
         <h1>홈</h1>
-        <h1>카테고리</h1>
+        <h1>통합검색</h1>
         <h1>추천</h1>
         <h1>랭킹</h1>
       </div>
     </>
   );
 };
+
 export default Header;

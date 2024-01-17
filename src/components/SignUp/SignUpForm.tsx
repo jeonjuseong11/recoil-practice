@@ -2,9 +2,9 @@ import React, { ChangeEvent, FormEvent, useEffect, useState } from 'react';
 import tw from 'tailwind-styled-components';
 import InputField from '../../common/InputField';
 import { BaseButton } from '../../common/BaseStyledComponents';
-import { useLocation, useNavigate } from 'react-router-dom';
-import useAxios from '../../hooks/useAxios';
-import { signup } from '../../api';
+import { useLocation } from 'react-router-dom';
+import useAuth from '../../hooks/useAuth';
+import useValidation from '../../hooks/useValidation';
 
 const PrimaryButton = tw(BaseButton)`
   bg-blue-600 hover:bg-blue-700 focus:ring-blue-300
@@ -15,21 +15,20 @@ const Form = tw.form`
   md:space-y-6
 `;
 
-interface SignUpFormData {
-  username: string;
-  email: string;
-  password: string;
-}
-
 const SignUpForm: React.FC = () => {
-  const [formData, setFormData] = useState<SignUpFormData>({
+  const [formData, setFormData] = useState({
     username: '',
     email: '',
     password: '',
   });
-  const { sendRequest: signupRequest, error } = useAxios();
+  const { handleSignup } = useAuth();
+  const {
+    isEmailValid,
+    emailErrorMessage,
+    isPasswordValid,
+    passwordErrorMessage,
+  } = useValidation(formData.email, formData.password);
   const location = useLocation();
-  const navigate = useNavigate();
 
   useEffect(() => {
     if (location.state) {
@@ -43,18 +42,9 @@ const SignUpForm: React.FC = () => {
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
-    await signupRequest(
-      signup(formData),
-      () => {
-        alert('환영합니다 로그인 페이지로 이동합니다');
-        navigate('/login');
-      },
-      () => {
-        alert('회원가입 실패');
-        console.error(error);
-      }
-    );
+    if (isEmailValid && isPasswordValid) {
+      await handleSignup(formData);
+    }
   };
 
   return (
@@ -70,6 +60,7 @@ const SignUpForm: React.FC = () => {
         readOnly={true}
         disabled={true}
       />
+      {!isEmailValid && <p className="error-message">{emailErrorMessage}</p>}
       <InputField
         label="비밀번호"
         type="password"
@@ -79,6 +70,9 @@ const SignUpForm: React.FC = () => {
         placeholder="비밀번호를 입력해주세요"
         onChange={handleChange}
       />
+      {!isPasswordValid && (
+        <p className="error-message">{passwordErrorMessage}</p>
+      )}
       <InputField
         label="이름"
         type="text"

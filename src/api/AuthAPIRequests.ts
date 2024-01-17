@@ -1,15 +1,15 @@
-interface IVerificationCode {
+export interface IVerificationCode {
   email: string;
   code: string;
 }
-interface ILogin {
+export interface ILogin {
   email: string;
   password: string;
 }
-interface ISignUp {
+export interface ISignUp {
   email: string;
   password: string;
-  username: string;
+  username?: string;
 }
 
 export const login = (formData: ILogin) => ({

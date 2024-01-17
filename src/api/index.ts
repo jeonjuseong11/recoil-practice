@@ -1,8 +1,1 @@
-export {
-  login,
-  signup,
-  logout,
-  sendVerificationCode,
-  verifyEmail,
-  updateToken,
-} from './AuthAPIRequests';
+export * from './AuthAPIRequests';
