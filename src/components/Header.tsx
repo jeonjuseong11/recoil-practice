@@ -46,7 +46,7 @@ const Header: React.FC = () => {
   return (
     <>
       <HeaderWrapper>
-        <div className="w-96">
+        <div className="flex space-x-4 w-96 justify-start items-center">
           <button onClick={handleSideMenuClick}>
             <MenuIcon />
           </button>
