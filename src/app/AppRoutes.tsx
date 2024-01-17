@@ -16,6 +16,7 @@ import NotFoundError from '../pages/404Error';
 import Error from '../pages/Error';
 import ProfileInfo from '../components/Profile/ProfileInfo';
 import ProfileSetting from '../components/Profile/ProfileSetting';
+import BookDetail from '../pages/BookDetail';
 
 function AppRoutes() {
   const [isLoggedIn, setIsLoggedIn] = useRecoilState(isLoggedInSelector);
@@ -37,6 +38,7 @@ function AppRoutes() {
     <Routes>
       <Route element={<Layout />}>
         <Route path="/" element={<Home />} />
+        <Route path="/details/:bookId" element={<BookDetail />} />
         <Route path="/profile" element={<Profile />}>
           <Route path="/profile" element={<ProfileInfo />} />
           <Route path="/profile/setting" element={<ProfileSetting />} />
