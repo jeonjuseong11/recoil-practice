@@ -4,7 +4,7 @@ import Logo from '../common/Logo';
 import CloseIcon from '../icons/CloseIcon';
 import SettingIcon from '../icons/SettingIcon';
 import { useRecoilValue } from 'recoil';
-import { isLoggedInSelector } from '../recoil/auth';
+import { isLoggedInSelector, userStateSelector } from '../recoil/auth';
 import LogoutIcon from '../icons/LogoutIcon';
 import LoginIcon from '../icons/LoginIcon';
 import { NavLink } from 'react-router-dom';
@@ -17,12 +17,12 @@ interface SideMenuContainerProps {
   isopen: string | undefined;
 }
 const SideMenuContainer = tw.div<SideMenuContainerProps>`
-  fixed z-50 left-0 top-0 h-full w-80 bg-white p-4 transform transition-transform duration-300
+  fixed z-50 left-0 top-0 h-full md:w-96 w-full bg-white p-4 transform transition-transform duration-300
   ${(p) => (p.isopen ? 'translate-x-0' : '-translate-x-full')}
 `;
 
 const SideBar = tw.aside`
-  fixed top-0 left-0 z-40 w-full h-screen transition-transform -translate-x-full sm:translate-x-0
+  fixed top-0 left-0 z-40 w-full h-screen transition-transform -translate-x-full translate-x-0 
 `;
 
 const MenuButton = tw.button`
@@ -37,6 +37,7 @@ const MenuList = tw.ul`
 
 const SideMenu: React.FC<SideMenuProps> = ({ isopen, handleSideMenuClick }) => {
   const isLoggedIn = useRecoilValue(isLoggedInSelector);
+  const user = useRecoilValue(userStateSelector);
   return (
     <SideMenuContainer isopen={isopen ? 'true' : undefined}>
       <SideBar id="separator-sidebar" aria-label="Sidebar">
@@ -58,7 +59,10 @@ const SideMenu: React.FC<SideMenuProps> = ({ isopen, handleSideMenuClick }) => {
                     className="w-20 h-20 bg-gray-300 rounded-full shrink-0 mx-auto"
                   ></img>
                   <span className="flex-1 ms-3 whitespace-nowrap">
-                    사용자 이름
+                    {user.username}
+                  </span>
+                  <span className="flex-grow whitespace-nowrap">
+                    님<br></br>안녕하세요!
                   </span>
                 </a>
               </li>
