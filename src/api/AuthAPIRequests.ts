@@ -42,3 +42,8 @@ export const updateToken = (token: string) => ({
   url: '/update-token',
   data: { token },
 });
+
+export const loadProfile = (userId: string) => ({
+  method: 'GET',
+  url: `/profile?userId=${userId}`,
+});

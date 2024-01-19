@@ -3,7 +3,10 @@ import { User } from './types';
 
 export const userState = atom<User>({
   key: 'user',
-  default: { username: '', email: '' },
+  default: (() => {
+    const storedUser = sessionStorage.getItem('user');
+    return storedUser ? JSON.parse(storedUser) : { username: '', email: '' };
+  })(),
 });
 
 export const isLoggedInState = atom<boolean>({

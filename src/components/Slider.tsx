@@ -1,10 +1,11 @@
-import 'swiper/css';
+import 'swiper/css/bundle';
 import 'swiper/css/pagination';
 import './Slider.css';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay, Navigation, Pagination } from 'swiper/modules';
+import React from 'react';
 
-const Slider = () => {
+const Slider = React.memo(() => {
   return (
     <Swiper
       pagination={{
@@ -28,5 +29,5 @@ const Slider = () => {
       <SwiperSlide>Slide 9</SwiperSlide>
     </Swiper>
   );
-};
+});
 export default Slider;

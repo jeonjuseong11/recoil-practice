@@ -4,6 +4,9 @@ export interface User {
   token?: string;
   refreshToken?: string;
   role?: string;
+  userPhn?: string | null;
+  userRole?: string | null;
+  userImg?: string | null;
 }
 export interface LoginInfo {
   userId: string;

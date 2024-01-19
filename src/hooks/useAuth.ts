@@ -10,6 +10,7 @@ import {
   ISignUp,
   ILogin,
   IVerificationCode,
+  loadProfile,
 } from '../api';
 import { instance } from '../api/apiClient';
 import { useNavigate } from 'react-router-dom';
@@ -100,12 +101,29 @@ const useAuth = () => {
     );
   };
 
+  const handleLoadProfile = async (userId: string) => {
+    console.log(userId);
+    await sendRequest(loadProfile(userId), (data) => {
+      const { userEmail, userName, userPhn, userImg, userRole } = data.data;
+      const userInfo = {
+        email: userEmail,
+        username: userName,
+        userPhn,
+        userImg,
+        userRole,
+      };
+      setUser(userInfo);
+      sessionStorage.setItem('user', JSON.stringify(userInfo));
+    });
+  };
+
   return {
     handleSendVerificationEmail,
     handleVerifyCode,
     handleSignup,
     handleLogin,
     handleLogout,
+    handleLoadProfile,
     loading,
     done,
   };
