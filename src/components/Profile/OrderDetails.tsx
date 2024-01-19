@@ -40,7 +40,7 @@ const OrderDetails: React.FC<OrderDetailsProps> = ({ orderList }) => {
   return (
     <>
       <h2 className="text-xl font-bold mb-4">구매 내역</h2>
-      <div className="grid grid-cols-4 gap-6 mb-6">
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-6 mb-6">
         <OrderDetailsBtn>
           <h2 className="text-sm">주문내역</h2>
           <p className="text-3xl font-semibold">{statusCount['주문내역']}</p>

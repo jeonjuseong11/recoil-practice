@@ -1,3 +1,4 @@
+import React from 'react';
 import BookListItem from './BookListItem';
 import { BooksState } from '../../recoil/book/types';
 
@@ -7,7 +8,7 @@ interface BookListProps {
 
 const BookList = ({ books }: BookListProps) => {
   return (
-    <ul className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-5 ">
+    <ul className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-10">
       {books.map((book, index) => (
         <li key={book.id}>
           <BookListItem

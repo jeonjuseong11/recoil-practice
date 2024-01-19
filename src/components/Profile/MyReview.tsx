@@ -1,3 +1,5 @@
+import React from 'react';
+
 interface IReview {
   id: number;
   title: string;

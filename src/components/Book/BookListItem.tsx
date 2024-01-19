@@ -1,5 +1,6 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
+import LikeIcon from '../../icons/LikeIcon';
 
 interface BookCardProps {
   id: number;
@@ -54,15 +55,17 @@ const BookListItem: React.FC<BookCardProps> = ({
             </div>
           )}
         </div>
-        <div className=" w-full flex justify-between sm:flex-col mt-1">
+        <div className=" w-full flex justify-between sm:flex-col mt-1 ">
           <div>
             <h2 className="font-semibold text-lg flex justify-between">
               {title}
-              <button className="hidden sm:block">장바구니</button>
+              <button className="hidden sm:block">
+                <LikeIcon />
+              </button>
             </h2>
             <p className="text-gray-800 text-sm">{author}</p>
           </div>
-          <div className="text-right items-center text-sm flex flex-col ">
+          <div className="text-right items-end text-sm flex flex-col ">
             {discount && parseInt(discount) > 0 && (
               <div>
                 <span className="text-red-600 flex-end mr-2">-{discount}%</span>

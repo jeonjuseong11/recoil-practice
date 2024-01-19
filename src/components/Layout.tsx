@@ -1,7 +1,7 @@
+import React from 'react';
 import { Outlet } from 'react-router-dom';
 import tw from 'tailwind-styled-components';
 import Header from './Header';
-import Footer from './Footer';
 
 const LayoutWrapper = tw.div`
   flex flex-col min-h-screen
