@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import tw from 'tailwind-styled-components';
+import { IoCartOutline, IoMenuOutline } from 'react-icons/io5';
 import { useRecoilValue } from 'recoil';
 import { isLoggedInSelector } from '../recoil/auth';
 import useAuth from '../hooks/useAuth';
-import MenuIcon from '../icons/MenuIcon';
 import Logo from '../common/Logo';
-import CartIcon from '../icons/CardIcon';
 import SideMenu from './SideMenu';
+
 import AuthButtons from './AuthButtons';
 
 const HeaderWrapper = tw.header`
@@ -47,15 +47,20 @@ const Header: React.FC = () => {
     <>
       <HeaderWrapper>
         <div className="flex space-x-4 w-96 justify-start items-center">
-          <button onClick={handleSideMenuClick}>
-            <MenuIcon />
+          <button type="button" onClick={handleSideMenuClick}>
+            <IoMenuOutline size={30} />
           </button>
         </div>
         <TopMenuSection>
           <Logo />
         </TopMenuSection>
         <TopMenuButtonGroup>
-          {showCartIcon && <CartIcon />}
+          {showCartIcon && (
+            <IoCartOutline
+              className="w-6 h-6 hover:text-indigo-600 duration-300"
+              aria-label="Cart"
+            />
+          )}
           <AuthButtons
             isLoggedIn={isLoggedIn}
             onLogout={handleLogout}

@@ -20,7 +20,7 @@ const VerificationButton = tw.div`
   absolute inset-y-0 right-0 flex items-center justify-center
 `;
 
-type InputFieldProps = {
+interface InputFieldProps {
   label?: string;
   type: string;
   name: string;
@@ -33,7 +33,8 @@ type InputFieldProps = {
   autoFocus?: boolean;
   maxLength?: number;
   children?: React.ReactNode;
-};
+}
+
 const ShowPasswordButton = tw.button`
   p-2 cursor-pointer text-gray-600 hover:text-gray-800 dark:text-gray-300 dark:hover:text-white
 `;
@@ -46,9 +47,9 @@ const InputField: React.FC<InputFieldProps> = ({
   placeholder,
   onChange,
   value,
-  disabled,
-  readOnly,
-  autoFocus,
+  disabled = false,
+  readOnly = false,
+  autoFocus = false,
   maxLength,
   children,
 }) => {
@@ -86,6 +87,14 @@ const InputField: React.FC<InputFieldProps> = ({
       </InputWrapper>
     </div>
   );
+};
+InputField.defaultProps = {
+  label: '',
+  disabled: false,
+  readOnly: false,
+  autoFocus: false,
+  maxLength: undefined,
+  children: undefined,
 };
 
 export default InputField;

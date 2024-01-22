@@ -2,7 +2,7 @@ import { useSetRecoilState } from 'recoil';
 import { useEffect } from 'react';
 import { userStateSelector } from '../recoil/auth';
 
-export const useInitializeUserFromStorage = () => {
+const useInitializeUserFromStorage = () => {
   const setUser = useSetRecoilState(userStateSelector);
   useEffect(() => {
     const storedUser = sessionStorage.getItem('user');
@@ -12,3 +12,4 @@ export const useInitializeUserFromStorage = () => {
     }
   }, [setUser]);
 };
+export default useInitializeUserFromStorage;

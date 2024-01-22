@@ -1,5 +1,3 @@
-import 'swiper/css/bundle';
-import 'swiper/css/pagination';
 import './Slider.css';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay, Navigation, Pagination } from 'swiper/modules';
@@ -16,7 +14,7 @@ const Slider = React.memo(() => {
         delay: 3500,
         disableOnInteraction: false,
       }}
-      loop={true}
+      loop
     >
       <SwiperSlide>Slide 1</SwiperSlide>
       <SwiperSlide>Slide 2</SwiperSlide>

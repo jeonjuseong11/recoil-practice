@@ -1,6 +1,6 @@
 import React from 'react';
-import { NavLink } from 'react-router-dom';
-import LikeIcon from '../../icons/LikeIcon';
+import { CiHeart } from 'react-icons/ci';
+import { NavLink, useNavigate } from 'react-router-dom';
 
 interface BookCardProps {
   id: number;
@@ -8,8 +8,7 @@ interface BookCardProps {
   bookCoverUrl?: string;
   title: string;
   author?: string;
-  description?: string;
-  category?: string;
+  category?: string[];
   price: number;
   discount?: string;
 }
@@ -25,19 +24,25 @@ function calculateDiscountedPrice(
 }
 
 const BookListItem: React.FC<BookCardProps> = ({
+  index,
   id,
   bookCoverUrl,
   title,
   author,
   category,
-  description,
   price,
   discount,
 }) => {
   const finalPrice = calculateDiscountedPrice(price, discount);
+  const navigate = useNavigate();
+
+  const handleCategoryClick = (categoryName: string) => {
+    navigate(`/category/${categoryName}`);
+  };
 
   return (
     <NavLink
+      key={index}
       to={`details/${id}`}
       className="cursor-pointer hover:opacity-75 duration-200"
     >
@@ -59,14 +64,25 @@ const BookListItem: React.FC<BookCardProps> = ({
           <div>
             <h2 className="font-semibold text-lg flex justify-between">
               {title}
-              <button className="hidden sm:block">
-                <LikeIcon />
+              <button type="button" className="hidden sm:block">
+                <CiHeart />
               </button>
             </h2>
             <p className="text-gray-800 text-sm">{author}</p>
+            {category &&
+              category.map((cat) => (
+                <button
+                  key={cat}
+                  onClick={() => handleCategoryClick(cat)}
+                  className="text-blue-600 cursor-pointer mr-2"
+                  type="button"
+                >
+                  {cat}
+                </button>
+              ))}{' '}
           </div>
           <div className="text-right items-end text-sm flex flex-col ">
-            {discount && parseInt(discount) > 0 && (
+            {discount && parseInt(discount, 10) > 0 && (
               <div>
                 <span className="text-red-600 flex-end mr-2">-{discount}%</span>
                 <span className="text-red-500 line-through">
@@ -78,13 +94,20 @@ const BookListItem: React.FC<BookCardProps> = ({
               {finalPrice.toLocaleString()}원
             </div>
             <div className="block sm:hidden justify-end">
-              <button>장바구니</button>
+              <button type="button">장바구니</button>
             </div>
           </div>
         </div>
       </div>
     </NavLink>
   );
+};
+
+BookListItem.defaultProps = {
+  bookCoverUrl: undefined,
+  author: undefined,
+  category: [],
+  discount: undefined,
 };
 
 export default BookListItem;

@@ -1,9 +1,9 @@
 import React from 'react';
+import { NavLink } from 'react-router-dom';
+import { useRecoilValue } from 'recoil';
+import { discountedBooksSelector } from '../recoil/book';
 import Slider from '../components/Slider';
 import BookList from '../components/Book/BookList';
-import { useRecoilValue } from 'recoil';
-import { discountedBooksSelector, dummyBooksState } from '../recoil/book';
-import { NavLink } from 'react-router-dom';
 
 const Home: React.FC = () => {
   // const dummyBooks = useRecoilValue(dummyBooksState); 전체 책 목록

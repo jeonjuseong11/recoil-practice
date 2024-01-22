@@ -17,7 +17,7 @@ const BookList = ({ books }: BookListProps) => {
             bookCoverUrl={book.bookCoverUrl}
             title={book.title}
             author={book.author}
-            description={book.description}
+            // description={book.description}
             price={book.price}
             discount={book.discount}
           />

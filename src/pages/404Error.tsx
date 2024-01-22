@@ -2,7 +2,7 @@ import React from 'react';
 import { NavLink } from 'react-router-dom';
 import { PageContainer } from '../common';
 
-export default function NotFoundError() {
+const NotFoundError = () => {
   return (
     <PageContainer>
       <div className="max-w-md mx-auto">
@@ -27,4 +27,5 @@ export default function NotFoundError() {
       </div>
     </PageContainer>
   );
-}
+};
+export default NotFoundError;

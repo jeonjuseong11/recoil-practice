@@ -27,7 +27,7 @@ interface OrderDetailsProps {
 const OrderDetails: React.FC<OrderDetailsProps> = ({ orderList }) => {
   const statusCount = orderList.reduce(
     (count, order) => {
-      count[order.status]++;
+      count[order.status] += 1;
       return count;
     },
     {
@@ -69,7 +69,10 @@ const OrderDetails: React.FC<OrderDetailsProps> = ({ orderList }) => {
       {orderList.length === 0 && (
         <div className="text-center p-10">
           <p className="p-5">주문 내역이 없습니다.</p>
-          <button className="bg-indigo-600 text-white px-5 py-3 rounded hover:opacity-75 duration-200">
+          <button
+            type="button"
+            className="bg-indigo-600 text-white px-5 py-3 rounded hover:opacity-75 duration-200"
+          >
             주문하러 가기
           </button>
         </div>
@@ -88,10 +91,16 @@ const OrderDetails: React.FC<OrderDetailsProps> = ({ orderList }) => {
             <p>{order.arrivalDate}</p>
           </div>
           <div className="w-2/12 flex flex-col gap-5 justify-center">
-            <button className="font-light text-sm bg-gray-200 rounded p-1 hover:opacity-75 duration-200">
+            <button
+              type="button"
+              className="font-light text-sm bg-gray-200 rounded p-1 hover:opacity-75 duration-200"
+            >
               배송취소
             </button>
-            <button className="font-light text-sm bg-gray-200 rounded p-1 hover:opacity-75 duration-200">
+            <button
+              type="button"
+              className="font-light text-sm bg-gray-200 rounded p-1 hover:opacity-75 duration-200"
+            >
               상세조회
             </button>
           </div>

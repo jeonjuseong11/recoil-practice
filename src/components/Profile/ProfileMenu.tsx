@@ -1,6 +1,6 @@
 import React from 'react';
+import { LuPencil } from 'react-icons/lu';
 import { NavLink, useLocation } from 'react-router-dom';
-import PencilIcon from '../../icons/PencilIcon';
 import tw from 'tailwind-styled-components';
 
 const ProfileMenuItem = tw(NavLink)`
@@ -40,10 +40,10 @@ const ProfileMenu = () => {
       </div>
       <div className="flex">
         <a
-          href="#"
+          href="/profile/update"
           className="bg-gray-200 hover:opacity-75 text-gray-700 py-2 px-4 rounded flex items-center duration-200 gap-2 w-full"
         >
-          <PencilIcon /> 내 정보 수정
+          <LuPencil />내 정보 수정
         </a>
       </div>
     </div>

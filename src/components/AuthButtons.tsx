@@ -36,21 +36,17 @@ const AuthButtons: React.FC<AuthButtonsProps> = ({
   onLogout,
   loggingOut,
 }) => {
-  return (
+  return isLoggedIn ? (
     <>
-      {isLoggedIn ? (
-        <>
-          <TopMenuLoginBtn to={'/profile'}>마이페이지</TopMenuLoginBtn>
-          <TopMenuSignupBtn to="/login" onClick={onLogout}>
-            로그아웃 {loggingOut ? <Spinner /> : null}
-          </TopMenuSignupBtn>
-        </>
-      ) : (
-        <>
-          <TopMenuLoginBtn to={'/login'}>로그인</TopMenuLoginBtn>
-          <TopMenuSignupBtn to={'/signup/1'}>회원가입</TopMenuSignupBtn>
-        </>
-      )}
+      <TopMenuLoginBtn to="/profile">마이페이지</TopMenuLoginBtn>
+      <TopMenuSignupBtn to="/login" onClick={onLogout}>
+        로그아웃 {loggingOut ? <Spinner /> : null}
+      </TopMenuSignupBtn>
+    </>
+  ) : (
+    <>
+      <TopMenuLoginBtn to="/login">로그인</TopMenuLoginBtn>
+      <TopMenuSignupBtn to="/signup/1">회원가입</TopMenuSignupBtn>
     </>
   );
 };

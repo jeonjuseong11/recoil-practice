@@ -1,4 +1,6 @@
 import { useNavigate } from 'react-router-dom';
+import { AxiosResponse } from 'axios';
+
 import { useSetRecoilState } from 'recoil';
 import { userStateSelector } from '../recoil/auth';
 import useAxios from './useAxios';
@@ -52,7 +54,7 @@ const useAuth = () => {
     await sendRequest(
       signup(formData),
       () => {
-        alert('환영합니다. 로그인 페이지로 이동합니다.');
+        alert(`환영합니다. 로그인 페이지로 이동합니다.`);
         navigate('/login');
       },
       (error) => {
@@ -65,8 +67,8 @@ const useAuth = () => {
   const handleLogin = async (formData: ILogin) => {
     await sendRequest(
       login(formData),
-      (data) => {
-        const { username, userId, role, token, refreshToken } = data.data;
+      (response: AxiosResponse) => {
+        const { username, userId, role, token, refreshToken } = response.data;
         const userInfo = {
           username,
           email: userId,
@@ -75,12 +77,12 @@ const useAuth = () => {
         setUser(userInfo);
         sessionStorage.setItem('user', JSON.stringify(userInfo));
         sessionStorage.setItem('token', JSON.stringify(refreshToken));
-        instance.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+        instance.defaults.headers.common.Authorization = `Bearer ${token}`;
         navigate('/');
       },
       (error) => {
         console.error(error);
-        alert('로그인 실패: ' + error.message);
+        alert(`로그인 실패: ${error.message}`);
       }
     );
   };
@@ -91,20 +93,20 @@ const useAuth = () => {
       () => {
         sessionStorage.clear();
         setUser({ username: '', email: '' });
-        delete instance.defaults.headers.common['Authorization'];
+        delete instance.defaults.headers.common.Authorization;
         navigate('/');
       },
       (error) => {
         console.error(error);
-        alert('로그아웃 실패: ' + error.message);
+        alert(`로그아웃 실패: ${error.message}`);
       }
     );
   };
 
   const handleLoadProfile = async (userId: string) => {
     console.log(userId);
-    await sendRequest(loadProfile(userId), (data) => {
-      const { userEmail, userName, userPhn, userImg, userRole } = data.data;
+    await sendRequest(loadProfile(userId), (response: AxiosResponse) => {
+      const { userEmail, userName, userPhn, userImg, userRole } = response.data;
       const userInfo = {
         email: userEmail,
         username: userName,

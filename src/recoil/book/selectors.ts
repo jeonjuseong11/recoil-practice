@@ -16,7 +16,7 @@ export const filteredBooksSelector = selector<Book[]>({
   },
 });
 
-//책 목록 전체
+// 책 목록 전체
 export const allBooksSelector: RecoilValueReadOnly<Book[]> = selector({
   key: 'allBooksSelector',
   get: ({ get }) => {
@@ -24,7 +24,7 @@ export const allBooksSelector: RecoilValueReadOnly<Book[]> = selector({
     return books;
   },
 });
-//할인이 있는 책 목록
+// 할인이 있는 책 목록
 export const discountedBooksSelector = selector<Book[]>({
   key: 'discountedBooksSelector',
   get: ({ get }) => {
@@ -41,11 +41,13 @@ export const bookDetailsSelector: RecoilValueReadOnly<
     ({ get }) =>
     (bookId: number) => {
       const books: Book[] = get(dummyBooksState);
-      const book: Book | undefined = books.find((book) => book.id === bookId);
-      return book;
+      const selectedBook: Book | undefined = books.find(
+        (book) => book.id === bookId
+      );
+      return selectedBook;
     },
 });
-//저자 검색
+// 저자 검색
 export const booksByAuthorSelector: RecoilValueReadOnly<
   (author: string) => Book[]
 > = selector({
@@ -60,7 +62,7 @@ export const booksByAuthorSelector: RecoilValueReadOnly<
       return authorBooks;
     },
 });
-//가격대 검색
+// 가격대 검색
 export const booksByPriceRangeSelector: RecoilValueReadOnly<
   ({ minPrice, maxPrice }: { minPrice: number; maxPrice: number }) => Book[]
 > = selector({
@@ -75,7 +77,7 @@ export const booksByPriceRangeSelector: RecoilValueReadOnly<
       return filteredBooks;
     },
 });
-//제목 검색
+// 제목 검색
 export const booksBySearchKeywordSelector: RecoilValueReadOnly<
   (keyword: string) => Book[]
 > = selector({

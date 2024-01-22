@@ -1,11 +1,10 @@
-import React from 'react';
-import { useState } from 'react';
+import React, { useState } from 'react';
 import MyReview from './MyReview';
 import OrderDetails from './OrderDetails';
 
 const ProfileInfo = () => {
-  const [review, setReview] = useState([]);
-  const [orderList, setOrderList] = useState([]);
+  const [review] = useState([]);
+  const [orderList] = useState([]);
 
   return (
     <>

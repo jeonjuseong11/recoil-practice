@@ -2,7 +2,7 @@ import { selector } from 'recoil';
 import { userState, isLoggedInState, userEmailVerifiedState } from './atoms';
 import { User } from './types';
 
-//현재 사용자의 정보
+// 현재 사용자의 정보
 export const userStateSelector = selector<User>({
   key: 'userStateSelector',
   get: ({ get }) => {

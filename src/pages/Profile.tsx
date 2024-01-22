@@ -1,22 +1,20 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Outlet } from 'react-router-dom';
-import ProfileCard from '../components/Profile/ProfileCard';
-
-import ProfileMenu from '../components/Profile/ProfileMenu';
-import { useEffect } from 'react';
-
-import useAuth from '../hooks/useAuth';
-import { userStateSelector } from '../recoil/auth';
 import { useRecoilValue } from 'recoil';
+import { userStateSelector } from '../recoil/auth';
+import ProfileCard from '../components/Profile/ProfileCard';
+import ProfileMenu from '../components/Profile/ProfileMenu';
+import useAuth from '../hooks/useAuth';
 
 const Profile = () => {
   const { handleLoadProfile, loading } = useAuth();
   const user = useRecoilValue(userStateSelector);
+
   useEffect(() => {
     if (user && user.email && !user.userRole) {
       handleLoadProfile(user.email);
     }
-  }, []);
+  }, [handleLoadProfile, user]);
   return (
     <div className="bg-gray-100">
       {loading ? (

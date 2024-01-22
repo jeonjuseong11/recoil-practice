@@ -23,7 +23,7 @@ interface ButtonProps {
   disabled?: boolean;
   children: React.ReactNode;
   type?: 'button' | 'submit' | 'reset';
-  onClick?: () => void;
+  onClick: () => void;
 }
 
 // BaseButton 컴포넌트
@@ -43,9 +43,11 @@ const BaseButton: React.FC<ButtonProps> = ({
   // 비활성화 스타일
   const disabledStyle = `opacity-50 cursor-not-allowed`;
 
+  const buttonVariant = variant || 'primary';
+
   return (
     <StyledButton
-      className={`${variantStyles[variant]} ${disabled ? disabledStyle : ''}`}
+      className={`${variantStyles[buttonVariant]} ${disabled ? disabledStyle : ''}`}
       disabled={disabled}
       type={type}
       onClick={onClick}
@@ -53,6 +55,12 @@ const BaseButton: React.FC<ButtonProps> = ({
       {children}
     </StyledButton>
   );
+};
+
+BaseButton.defaultProps = {
+  variant: 'primary',
+  type: 'button',
+  disabled: false,
 };
 
 export default BaseButton;

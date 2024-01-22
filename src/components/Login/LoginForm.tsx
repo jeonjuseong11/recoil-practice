@@ -65,6 +65,7 @@ const LoginForm = () => {
 
       <BaseButton
         type="submit"
+        onClick={() => handleSubmit}
         variant="primary"
         disabled={!isFormValid() || loading}
       >
@@ -82,7 +83,7 @@ const LoginForm = () => {
       </div>
       <div className="text-sm font-light text-gray-500 dark:text-gray-400 mt-4">
         비밀번호를 까먹으셨나요?{' '}
-        <a href="#" className="font-medium text-blue-600 hover:underline">
+        <a href="/findpw" className="font-medium text-blue-600 hover:underline">
           비밀번호 찾기
         </a>
       </div>

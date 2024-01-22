@@ -19,7 +19,7 @@ import ProfileInfo from '../components/Profile/ProfileInfo';
 import ProfileSetting from '../components/Profile/ProfileSetting';
 import BookDetail from '../pages/BookDetail';
 
-function AppRoutes() {
+const AppRoutes = () => {
   const [isLoggedIn, setIsLoggedIn] = useRecoilState(isLoggedInSelector);
   const setUser = useSetRecoilState(userStateSelector);
   const isEmailVerified = useRecoilValue(userEmailVerifiedSelector);
@@ -34,7 +34,7 @@ function AppRoutes() {
       setIsLoggedIn(true);
     }
     setIsLoggedIn(hasToken);
-  }, []);
+  }, [setIsLoggedIn, setUser]);
 
   return (
     <Routes>
@@ -70,6 +70,6 @@ function AppRoutes() {
       <Route path="/error" element={<Error />} />
     </Routes>
   );
-}
+};
 
 export default AppRoutes;

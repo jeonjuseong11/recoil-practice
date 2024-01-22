@@ -14,7 +14,7 @@ const ProfileCard: React.FC<ProfileCardProps> = ({ user }) => {
             alt="userProfileImage"
             src={user.userImg?.toString()}
             className="w-48 h-48 bg-gray-300 rounded-full mb-4 shrink-0 mx-auto"
-          ></img>
+          />
           <div className="flex gap-2">
             <p className="text-xl font-bold">{user.username} </p>
             <p className="text-xl">

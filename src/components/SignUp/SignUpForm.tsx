@@ -1,8 +1,8 @@
 import React, { ChangeEvent, FormEvent, useEffect, useState } from 'react';
 import tw from 'tailwind-styled-components';
+import { useLocation } from 'react-router-dom';
 import InputField from '../../common/InputField';
 import { BaseButton } from '../../common/BaseStyledComponents';
-import { useLocation } from 'react-router-dom';
 import useAuth from '../../hooks/useAuth';
 import useValidation from '../../hooks/useValidation';
 
@@ -57,8 +57,8 @@ const SignUpForm: React.FC = () => {
         value={formData.email}
         placeholder="이메일을 입력해주세요"
         onChange={handleChange}
-        readOnly={true}
-        disabled={true}
+        readOnly
+        disabled
       />
       {!isEmailValid && <p className="error-message">{emailErrorMessage}</p>}
       <InputField

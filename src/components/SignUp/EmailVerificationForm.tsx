@@ -1,10 +1,10 @@
 import React, { ChangeEvent, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import tw from 'tailwind-styled-components';
 import { Form } from '../../common/BaseStyledComponents';
 import InputField from '../../common/InputField';
 import Spinner from '../../common/Spinner';
 import BaseButton from '../../common/Buttons';
-import tw from 'tailwind-styled-components';
 import useAuth from '../../hooks/useAuth';
 import useValidation from '../../hooks/useValidation';
 
@@ -59,9 +59,11 @@ const EmailVerificationForm: React.FC = () => {
           placeholder="이메일을 입력해주세요"
           onChange={handleEmailChange}
           disabled={isCodeSent}
-          autoFocus={true}
+          autoFocus
         >
           <VerificationButton
+            type="button"
+            variant="primary"
             onClick={handleSendCode}
             disabled={!isEmailValid || loading}
           >
@@ -84,7 +86,9 @@ const EmailVerificationForm: React.FC = () => {
             onChange={handleVerificationCodeChange}
             maxLength={6}
           />
-          <BaseButton onClick={handleVerify}>코드 검증</BaseButton>
+          <BaseButton type="button" variant="primary" onClick={handleVerify}>
+            코드 검증
+          </BaseButton>
         </>
       )}
     </Form>

@@ -16,11 +16,11 @@ const Card = tw.div`
   sm:p-8
 `;
 
-interface Card {
+interface ICard {
   children: ReactNode;
 }
 
-const CardWrapper: React.FC<Card> = ({ children }) => {
+const CardWrapper: React.FC<ICard> = ({ children }) => {
   return <Card>{children}</Card>;
 };
 

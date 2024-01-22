@@ -1,3 +1,4 @@
+import React from 'react';
 import {
   CopyRightText,
   Divider,
@@ -22,13 +23,11 @@ const Footer = () => {
       <FooterContent>
         <FooterSection>
           <LogoContainer>
-            <a className="flex items-center">
-              <img
-                src={Logo}
-                className="flex items-center"
-                alt="StandardNetworks Logo"
-              />
-            </a>
+            <img
+              src={Logo}
+              className="flex items-center"
+              alt="StandardNetworks Logo"
+            />
           </LogoContainer>
           <GridContainer>
             <GridItem>

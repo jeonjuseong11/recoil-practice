@@ -41,15 +41,15 @@ function reducer<T>(state: State<T>, action: Action<T>): State<T> {
       throw new Error(`Unhandled action type: ${action}`);
   }
 }
-const initialState: State<any> = {
+const initialState = <T>(): State<T> => ({
   loading: false,
   data: null,
   status: null,
   error: null,
   done: false,
-};
+});
 
-const useAxios = <T = any>(): {
+const useAxios = <T>(): {
   loading: boolean;
   data: T | null;
   status: number | null;
@@ -57,21 +57,17 @@ const useAxios = <T = any>(): {
   done: boolean;
   sendRequest: (
     config: AxiosRequestConfig,
-    onSuccess?: (data: any) => void,
+    onSuccess?: (response: AxiosResponse<T>) => void,
     onError?: (error: AxiosError) => void
   ) => Promise<void>;
   reset: () => void;
 } => {
-  const [state, dispatch] = useReducer<React.Reducer<State<T>, Action<T>>>(
-    reducer,
-    initialState as State<T>
-  );
-
+  const [state, dispatch] = useReducer(reducer<T>, initialState<T>());
   const sendRequest = useCallback(
     async (
-      config: AxiosRequestConfig, //api 요청 url
-      onSuccess?: (data: any) => void, //성공했을 때 실행될 함수
-      onError?: (error: AxiosError) => void //실패했을 때 실행될 함수
+      config: AxiosRequestConfig,
+      onSuccess?: (response: AxiosResponse<T>) => void,
+      onError?: (error: AxiosError) => void
     ) => {
       dispatch({ type: 'LOADING' });
       try {
@@ -82,8 +78,7 @@ const useAxios = <T = any>(): {
           status: response.status,
         });
         if (onSuccess) {
-          onSuccess({ data: response.data, status: response.status });
-          console.log(response.data);
+          onSuccess(response);
         }
       } catch (error) {
         dispatch({

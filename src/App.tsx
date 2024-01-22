@@ -9,7 +9,7 @@ const router = createBrowserRouter([
   { path: '*', element: <AppRoutes />, errorElement: <Error /> },
 ]);
 
-function App() {
+const App = () => {
   return (
     <div className="App">
       <RecoilRoot>
@@ -17,6 +17,6 @@ function App() {
       </RecoilRoot>
     </div>
   );
-}
+};
 
 export default App;

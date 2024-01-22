@@ -1,6 +1,4 @@
 import React from 'react';
-import { useRecoilValue } from 'recoil';
-import { discountedBooksSelector } from '../recoil/book';
 import { NavLink } from 'react-router-dom';
 
 const BookDetail: React.FC = () => {
