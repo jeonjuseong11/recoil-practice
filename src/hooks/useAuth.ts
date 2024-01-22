@@ -1,3 +1,4 @@
+import { useNavigate } from 'react-router-dom';
 import { useSetRecoilState } from 'recoil';
 import { userStateSelector } from '../recoil/auth';
 import useAxios from './useAxios';
@@ -12,8 +13,7 @@ import {
   IVerificationCode,
   loadProfile,
 } from '../api';
-import { instance } from '../api/apiClient';
-import { useNavigate } from 'react-router-dom';
+import instance from '../api/apiClient';
 
 const useAuth = () => {
   const setUser = useSetRecoilState(userStateSelector);

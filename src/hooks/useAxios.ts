@@ -1,6 +1,6 @@
 import { useReducer, useCallback } from 'react';
 import { AxiosRequestConfig, AxiosError, AxiosResponse } from 'axios';
-import { instance } from '../api/apiClient';
+import instance from '../api/apiClient';
 
 interface State<T> {
   loading: boolean;

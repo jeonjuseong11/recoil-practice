@@ -1,8 +1,9 @@
-import { useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { Navigate, Route, Routes } from 'react-router-dom';
+import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
+
 import Login from '../pages/Login';
 import Layout from '../components/Layout';
-import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import {
   isLoggedInSelector,
   userEmailVerifiedSelector,
@@ -25,13 +26,14 @@ function AppRoutes() {
 
   useEffect(() => {
     const storedUser = sessionStorage.getItem('user');
-    const isLoggedIn = sessionStorage.getItem('token') === 'true';
+    const storedToken = sessionStorage.getItem('token');
+    const hasToken = !!storedToken;
 
     if (storedUser) {
       setUser(JSON.parse(storedUser));
       setIsLoggedIn(true);
     }
-    setIsLoggedIn(isLoggedIn);
+    setIsLoggedIn(hasToken);
   }, []);
 
   return (

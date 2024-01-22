@@ -1,7 +1,6 @@
 import axios from 'axios';
 
-//기본 api url 설정
-export const instance = axios.create({
+const instance = axios.create({
   baseURL: import.meta.env.VITE_API_BASE_URL,
   timeout: 5000,
   headers: {
@@ -10,3 +9,4 @@ export const instance = axios.create({
   },
   responseType: 'json',
 });
+export default instance;

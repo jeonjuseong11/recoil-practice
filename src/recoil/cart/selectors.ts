@@ -1,4 +1,4 @@
-import { selector, useRecoilCallback } from 'recoil';
+import { selector } from 'recoil';
 import { cartState } from './atoms';
 
 // 장바구니의 총 가격을 계산하는 셀렉터
