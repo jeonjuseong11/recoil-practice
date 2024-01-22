@@ -29,13 +29,21 @@ const SideBar = tw.aside`
 `;
 
 const MenuButton = tw.button`
-  text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 
+  text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1 
   absolute top-5 end-2.5 inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white
 `;
 
 const MenuList = tw.ul`
   space-y-2 font-medium mt-5
+`;
 
+interface SubMenuProps extends React.HTMLAttributes<HTMLUListElement> {
+  'data-isopen'?: string;
+}
+
+const SubMenu = tw.ul<SubMenuProps>`
+  overflow-hidden transition-all ease-in-out duration-300
+  ${(p) => (p['data-isopen'] === 'true' ? 'max-h-40 opacity-100' : 'max-h-0 opacity-0')}
 `;
 const SideMenu: React.FC<SideMenuProps> = ({ isopen, handleSideMenuClick }) => {
   const isLoggedIn = useRecoilValue(isLoggedInSelector);
@@ -46,13 +54,12 @@ const SideMenu: React.FC<SideMenuProps> = ({ isopen, handleSideMenuClick }) => {
     <SideMenuContainer isopen={isopen ? 'true' : undefined}>
       <SideBar id="separator-sidebar" aria-label="Sidebar">
         <MenuButton onClick={handleSideMenuClick}>
-          <FiX />
+          <FiX size={25} />
           <span className="sr-only">Close menu</span>
         </MenuButton>
-        <div className="h-full px-3 py-4 overflow-y-auto bg-gray-50 dark:bg-gray-800">
+        <div className="h-full px-3 py-4 overflow-y-auto bg-gray-50 dark:bg-gray-800 items-center">
           <Logo />
           <MenuList>
-            {/* 사용자 로그인 여부에 따라 메뉴 항목을 렌더링 */}
             {isLoggedIn ? (
               <li>
                 <a
@@ -85,6 +92,53 @@ const SideMenu: React.FC<SideMenuProps> = ({ isopen, handleSideMenuClick }) => {
               </li>
             )}
             <li>
+              <NavLink
+                to="/new-releases"
+                className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
+              >
+                <span className="flex-1 ms-3 whitespace-nowrap">신규 출시</span>
+              </NavLink>
+            </li>
+            <li>
+              <NavLink
+                to="/reviews"
+                className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
+              >
+                <span className="flex-1 ms-3 whitespace-nowrap">
+                  리뷰 & 블로그
+                </span>
+              </NavLink>
+            </li>
+            <li>
+              <NavLink
+                to="/community"
+                className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
+              >
+                <span className="flex-1 ms-3 whitespace-nowrap">
+                  포럼/커뮤니티
+                </span>
+              </NavLink>
+            </li>
+            <li>
+              <NavLink
+                to="/recommendations"
+                className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
+              >
+                <span className="flex-1 ms-3 whitespace-nowrap">추천 서적</span>
+              </NavLink>
+            </li>
+
+            <li>
+              <NavLink
+                to="/deals"
+                className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
+              >
+                <span className="flex-1 ms-3 whitespace-nowrap">
+                  할인/프로모션
+                </span>
+              </NavLink>
+            </li>
+            <li>
               <button
                 type="button"
                 className="flex items-center w-full p-2 text-base text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
@@ -95,14 +149,11 @@ const SideMenu: React.FC<SideMenuProps> = ({ isopen, handleSideMenuClick }) => {
                   카테고리
                 </span>
               </button>
-              <ul
-                id="dropdown-example"
-                className={`${showSubMenu ? 'block' : 'hidden'} py-2 space-y-2`}
-              >
+              <SubMenu data-isopen={showSubMenu ? 'true' : 'false'}>
                 <li>
                   <a
                     href="/products"
-                    className="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover-bg-gray-100 dark:text-white dark:hover:bg-gray-700"
+                    className="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
                   >
                     Products
                   </a>
@@ -110,7 +161,7 @@ const SideMenu: React.FC<SideMenuProps> = ({ isopen, handleSideMenuClick }) => {
                 <li>
                   <a
                     href="/billing"
-                    className="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover-bg-gray-100 dark:text-white dark:hover:bg-gray-700"
+                    className="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
                   >
                     Billing
                   </a>
@@ -118,12 +169,12 @@ const SideMenu: React.FC<SideMenuProps> = ({ isopen, handleSideMenuClick }) => {
                 <li>
                   <a
                     href="/invoice"
-                    className="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover-bg-gray-100 dark:text-white dark:hover-bg-gray-700"
+                    className="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
                   >
                     Invoice
                   </a>
                 </li>
-              </ul>
+              </SubMenu>
             </li>
             <li>
               <a
