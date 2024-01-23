@@ -5,7 +5,14 @@ import { FiShoppingCart, FiX } from 'react-icons/fi';
 import { RiLoginBoxLine, RiLogoutBoxRLine } from 'react-icons/ri';
 import { BsFire } from 'react-icons/bs';
 import { FaSearch } from 'react-icons/fa';
-import { IoPricetagOutline, IoSettingsOutline } from 'react-icons/io5';
+import {
+  IoBookOutline,
+  IoChevronForward,
+  IoPricetagOutline,
+  IoSettingsOutline,
+} from 'react-icons/io5';
+import { MdOutlineFiberNew, MdOutlineRateReview } from 'react-icons/md';
+import { TbDiscount2 } from 'react-icons/tb';
 
 import { useRecoilValue } from 'recoil';
 import { isLoggedInSelector, userStateSelector } from '../recoil/auth';
@@ -86,8 +93,8 @@ const SideMenu: React.FC<SideMenuProps> = ({ isopen, handleSideMenuClick }) => {
                   to="/login"
                   className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
                 >
-                  <RiLoginBoxLine className="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" />
-                  <span className="flex-1 ms-3 whitespace-nowrap">로그인</span>
+                  <RiLoginBoxLine className="flex-shrink-0 w-7 h-7 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" />
+                  <span className="flex-1 ms-6 whitespace-nowrap">로그인</span>
                 </NavLink>
               </li>
             )}
@@ -96,17 +103,8 @@ const SideMenu: React.FC<SideMenuProps> = ({ isopen, handleSideMenuClick }) => {
                 to="/new-releases"
                 className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
               >
-                <span className="flex-1 ms-3 whitespace-nowrap">신규 출시</span>
-              </NavLink>
-            </li>
-            <li>
-              <NavLink
-                to="/reviews"
-                className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
-              >
-                <span className="flex-1 ms-3 whitespace-nowrap">
-                  리뷰 & 블로그
-                </span>
+                <MdOutlineFiberNew className="flex-shrink-0 w-7 h-7 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" />
+                <span className="flex-1 ms-6 whitespace-nowrap">신규 출시</span>
               </NavLink>
             </li>
             <li>
@@ -114,7 +112,8 @@ const SideMenu: React.FC<SideMenuProps> = ({ isopen, handleSideMenuClick }) => {
                 to="/community"
                 className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
               >
-                <span className="flex-1 ms-3 whitespace-nowrap">
+                <MdOutlineRateReview className="flex-shrink-0 w-7 h-7 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" />
+                <span className="flex-1 ms-6 whitespace-nowrap">
                   포럼/커뮤니티
                 </span>
               </NavLink>
@@ -124,7 +123,8 @@ const SideMenu: React.FC<SideMenuProps> = ({ isopen, handleSideMenuClick }) => {
                 to="/recommendations"
                 className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
               >
-                <span className="flex-1 ms-3 whitespace-nowrap">추천 서적</span>
+                <IoBookOutline className="flex-shrink-0 w-7 h-7 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" />
+                <span className="flex-1 ms-6 whitespace-nowrap">추천 서적</span>
               </NavLink>
             </li>
 
@@ -133,7 +133,8 @@ const SideMenu: React.FC<SideMenuProps> = ({ isopen, handleSideMenuClick }) => {
                 to="/deals"
                 className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
               >
-                <span className="flex-1 ms-3 whitespace-nowrap">
+                <TbDiscount2 className="flex-shrink-0 w-7 h-7 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" />
+                <span className="flex-1 ms-6 whitespace-nowrap">
                   할인/프로모션
                 </span>
               </NavLink>
@@ -144,10 +145,13 @@ const SideMenu: React.FC<SideMenuProps> = ({ isopen, handleSideMenuClick }) => {
                 className="flex items-center w-full p-2 text-base text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
                 onClick={() => setShowSubMenu(!showSubMenu)}
               >
-                <IoPricetagOutline />
-                <span className="flex-1 ms-3 text-left rtl:text-right whitespace-nowrap">
+                <IoPricetagOutline className="flex-shrink-0 w-7 h-7 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" />
+                <span className="flex-1 ms-6 text-left rtl:text-right whitespace-nowrap">
                   카테고리
                 </span>
+                <IoChevronForward
+                  className={`transition-transform duration-300 ${showSubMenu ? 'rotate-90' : ''}`}
+                />
               </button>
               <SubMenu data-isopen={showSubMenu ? 'true' : 'false'}>
                 <li>
@@ -181,8 +185,8 @@ const SideMenu: React.FC<SideMenuProps> = ({ isopen, handleSideMenuClick }) => {
                 href="/cart"
                 className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
               >
-                <FiShoppingCart className="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" />
-                <span className="flex-1 ms-3 whitespace-nowrap">장바구니</span>
+                <FiShoppingCart className="flex-shrink-0 w-7 h-7 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" />
+                <span className="flex-1 ms-6 whitespace-nowrap">장바구니</span>
                 <span className="inline-flex items-center justify-center w-3 h-3 p-3 ms-3 text-sm font-medium text-blue-800 bg-blue-100 rounded-full dark:bg-blue-900 dark:text-blue-300">
                   3
                 </span>
@@ -194,8 +198,8 @@ const SideMenu: React.FC<SideMenuProps> = ({ isopen, handleSideMenuClick }) => {
                 href="/books/best"
                 className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
               >
-                <BsFire className="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" />
-                <span className="flex-1 ms-3 whitespace-nowrap">
+                <BsFire className="flex-shrink-0 w-7 h-7 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" />
+                <span className="flex-1 ms-6 whitespace-nowrap">
                   베스트 셀러
                 </span>
               </a>
@@ -242,16 +246,6 @@ const SideMenu: React.FC<SideMenuProps> = ({ isopen, handleSideMenuClick }) => {
           </ul>
         </div>
       </SideBar>
-      {/* 일단 있을 메뉴들 나열 후 로그인 여부에 따라 렌더링 변경 예정 */}
-      <p>홈</p>
-      <p>카테고리</p>
-      <p>추천</p>
-      <p>랭킹</p>
-      <p>신규</p>
-      <p>마이페이지</p>
-      <p>로그아웃</p>
-      <p>로그인</p>
-      <p>장바구니</p>
     </SideMenuContainer>
   );
 };
