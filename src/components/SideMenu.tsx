@@ -51,11 +51,13 @@ interface SubMenuProps extends React.HTMLAttributes<HTMLUListElement> {
 const SubMenu = tw.ul<SubMenuProps>`
   overflow-hidden transition-all ease-in-out duration-300
   ${(p) => (p['data-isopen'] === 'true' ? 'max-h-40 opacity-100' : 'max-h-0 opacity-0')}
+  & > h2 {}
 `;
+
 const SideMenu: React.FC<SideMenuProps> = ({ isopen, handleSideMenuClick }) => {
   const isLoggedIn = useRecoilValue(isLoggedInSelector);
   const user = useRecoilValue(userStateSelector);
-  const [showSubMenu, setShowSubMenu] = useState(false); // showSubMenu 상태 추가
+  const [showSubMenu, setShowSubMenu] = useState(false);
 
   return (
     <SideMenuContainer isopen={isopen ? 'true' : undefined}>
@@ -212,10 +214,10 @@ const SideMenu: React.FC<SideMenuProps> = ({ isopen, handleSideMenuClick }) => {
                 className="flex items-center p-2 text-gray-900 transition duration-75 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 dark:text-white group"
               >
                 <FaSearch
-                  className="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
+                  className="flex-shrink-0 w-7 h-7 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
                   aria-hidden="true"
                 />
-                <span className="ms-3">통합검색</span>
+                <span className="ms-6">통합검색</span>
               </a>
             </li>
 
@@ -226,7 +228,7 @@ const SideMenu: React.FC<SideMenuProps> = ({ isopen, handleSideMenuClick }) => {
                     href="/123"
                     className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
                   >
-                    <RiLogoutBoxRLine className="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" />
+                    <RiLogoutBoxRLine className="flex-shrink-0 w-7 h-7 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" />
                     <span className="flex-1 ms-3 whitespace-nowrap">
                       로그아웃
                     </span>
