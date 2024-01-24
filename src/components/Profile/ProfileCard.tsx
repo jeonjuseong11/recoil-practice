@@ -1,9 +1,5 @@
 import React from 'react';
-import { User } from '../../recoil/auth/types';
-
-interface ProfileCardProps {
-  user: User;
-}
+import { ProfileCardProps } from './types';
 
 const ProfileCard: React.FC<ProfileCardProps> = ({ user }) => {
   return (

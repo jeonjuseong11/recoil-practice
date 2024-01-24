@@ -5,8 +5,7 @@ import { useRecoilValue } from 'recoil';
 import { isLoggedInSelector } from '../recoil/auth';
 import useAuth from '../hooks/useAuth';
 import Logo from '../common/Logo';
-import SideMenu from './SideMenu';
-
+import SideMenu from './SideMenu/SideMenu';
 import AuthButtons from './AuthButtons';
 
 const HeaderWrapper = tw.header`

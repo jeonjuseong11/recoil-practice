@@ -1,16 +1,5 @@
 import React from 'react';
-
-interface IReview {
-  id: number;
-  title: string;
-  rate: string;
-  date: string;
-  content: string;
-}
-
-interface MyReviewProps {
-  review: IReview[];
-}
+import { MyReviewProps } from './types';
 
 const MyReview: React.FC<MyReviewProps> = ({ review }) => {
   return (

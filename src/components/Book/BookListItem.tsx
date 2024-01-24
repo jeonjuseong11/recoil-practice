@@ -1,27 +1,8 @@
 import React from 'react';
 import { CiHeart } from 'react-icons/ci';
 import { NavLink, useNavigate } from 'react-router-dom';
-
-interface BookCardProps {
-  id: number;
-  index: number;
-  bookCoverUrl?: string;
-  title: string;
-  author?: string;
-  category?: string[];
-  price: number;
-  discount?: string;
-}
-
-function calculateDiscountedPrice(
-  price: number,
-  discount: string | undefined
-): number {
-  // discount가 undefined인 경우를 대비해 기본값으로 0을 설정
-  const discountRate = discount ? parseInt(discount, 10) : 0;
-  // 100원 단위로 반올림
-  return Math.round((price * (1 - discountRate / 100)) / 100) * 100;
-}
+import { BookCardProps } from './types';
+import calculateDiscountedPrice from '../../../utils/calculateDiscountPrice';
 
 const BookListItem: React.FC<BookCardProps> = ({
   index,
@@ -101,13 +82,6 @@ const BookListItem: React.FC<BookCardProps> = ({
       </div>
     </NavLink>
   );
-};
-
-BookListItem.defaultProps = {
-  bookCoverUrl: undefined,
-  author: undefined,
-  category: [],
-  discount: undefined,
 };
 
 export default BookListItem;

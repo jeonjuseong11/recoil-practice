@@ -1,5 +1,5 @@
 import React, { useState, ChangeEvent, FormEvent, MouseEvent } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import InputField from '../../common/InputField';
 import { Form } from '../../common/BaseStyledComponents';
 import Spinner from '../../common/Spinner';
@@ -83,9 +83,12 @@ const LoginForm = () => {
       </div>
       <div className="text-sm font-light text-gray-500 dark:text-gray-400 mt-4">
         비밀번호를 까먹으셨나요?{' '}
-        <a href="/findpw" className="font-medium text-blue-600 hover:underline">
+        <Link
+          to="/findpw"
+          className="font-medium text-blue-600 hover:underline"
+        >
           비밀번호 찾기
-        </a>
+        </Link>
       </div>
     </Form>
   );

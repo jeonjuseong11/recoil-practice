@@ -1,5 +1,6 @@
 import React from 'react';
 import tw from 'tailwind-styled-components';
+import { OrderDetailsProps } from './types';
 
 const OrderDetailsBtn = tw.div`
   bg-gray-100 
@@ -10,19 +11,6 @@ const OrderDetailsBtn = tw.div`
   transition 
   duration-200
 `;
-
-interface IOrderList {
-  bookImgUrl: string;
-  bookName: string;
-  purchaseDate: string;
-  shippingState: string;
-  arrivalDate: string;
-  status: '주문내역' | '배송중' | '배송완료' | '취소';
-}
-
-interface OrderDetailsProps {
-  orderList: IOrderList[];
-}
 
 const OrderDetails: React.FC<OrderDetailsProps> = ({ orderList }) => {
   const statusCount = orderList.reduce(

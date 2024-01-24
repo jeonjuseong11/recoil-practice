@@ -1,10 +1,6 @@
 import React from 'react';
 import BookListItem from './BookListItem';
-import { BooksState } from '../../recoil/book/types';
-
-interface BookListProps {
-  books: BooksState;
-}
+import { BookListProps } from './types';
 
 const BookList = ({ books }: BookListProps) => {
   return (
