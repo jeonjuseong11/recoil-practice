@@ -1,4 +1,3 @@
-import React from 'react';
 import BookListItem from './BookListItem';
 import { BookListProps } from './types';
 

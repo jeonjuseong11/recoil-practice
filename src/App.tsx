@@ -1,4 +1,3 @@
-import React from 'react';
 import { RecoilRoot } from 'recoil';
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import AppRoutes from './app/AppRoutes';

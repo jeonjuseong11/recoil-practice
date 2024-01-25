@@ -1,4 +1,3 @@
-import React from 'react';
 import { LuPencil } from 'react-icons/lu';
 import { NavLink, useLocation } from 'react-router-dom';
 import tw from 'tailwind-styled-components';

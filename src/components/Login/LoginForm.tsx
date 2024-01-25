@@ -1,4 +1,4 @@
-import React, { useState, ChangeEvent, FormEvent, MouseEvent } from 'react';
+import { useState, ChangeEvent, FormEvent, MouseEvent } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import InputField from '../../common/InputField';
 import { Form } from '../../common/BaseStyledComponents';

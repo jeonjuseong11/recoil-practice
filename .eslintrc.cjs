@@ -45,5 +45,7 @@ module.exports = {
         namedComponents: 'arrow-function',
       },
     ],
+    // React 17 이상에서 JSX를 사용할 때 React import가 필요하지 않음
+    'react/react-in-jsx-scope': 'off',
   },
 };
